@@ -1,0 +1,37 @@
+{
+  "name": "Google Data Analytics Coursera Module 1",
+  "course_id": "6718b8e8bb5e53941a1d82bf",
+  "session_id": "671ad0983d154c5da683da0c",
+  "lesson_type": "assignment",
+  "description": "",
+  "assignment": [
+    "name": "Google Data Analytics Coursera Module 1", 
+    {
+      "_id": "1",
+      "question_type": "multiple_choice",
+      "question": "<p>Which of the following statements correctly describe data and data analysis? Select all that apply</p>",
+      "answer": [
+        "Data is a collection of facts",
+        "One goal of data analysis is to drive informed decision-making",
+        "Transforming data is part of the data analysis process",
+        "Data analysis is the creation of data"
+      ],
+      "correct_answer": [
+        "One goal of data analysis is to drive informed decision-making",
+        "Data is a collection of facts",
+        "Transforming data is part of the data analysis process"
+      ],
+      "is_deleted": false
+    },
+    {
+      "_id": "2",
+      "question_type": "single_choice",
+      "question": "<p><span style=\"color: rgb(26, 29, 40);\">Data science is creating new ways of _____ and understanding the unknown by using raw data</span></p>",
+      "answer": ["Modeling", "Strategizing", "Arranging", "Identifying"],
+      "correct_answer": ["Modeling"],
+      "is_deleted": false
+    }
+  ],
+  "full_time": 10,
+  "position_order": 0
+}

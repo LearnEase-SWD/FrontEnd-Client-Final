@@ -1,0 +1,498 @@
+@import url("https://fonts.googleapis.com/css2?family=Jost:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Exo:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.font-jost {
+  font-family: "Jost", sans-serif;
+}
+.font-exo {
+  font-family: "Exo", sans-serif;
+}
+
+:root {
+  --primary-color: #c5c7c9; /* Màu chính */
+  --secondary-color: #de8f41; /* Màu phụ */
+  --font-size-base: 16px; /* Kích thước chữ cơ bản */
+
+  /* Primary Colors */
+  --color-primary-default: #ff782d;
+  --color-primary-hover: #ffab2d;
+  --color-primary-pressed: #f8620e;
+
+  /* Absolute Colors */
+  --color-absolute-black: #000000;
+  --color-absolute-white: #ffffff;
+
+  /* Neutral Colors */
+  --color-neutral-dark-grey: #555555;
+  --color-neutral-grey: #9d9d9d;
+  --color-neutral-light-grey: #eaeaea;
+  --color-neutral-white-grey: #f5f5f5;
+
+  /* Status Colors */
+  --color-status-info: #2580d5;
+  --color-status-success: #55be24;
+  --color-status-warning: #ffb100;
+}
+
+.h3 {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--color-primary-default);
+}
+
+h1,
+h2,
+h3 {
+  font-family: "Exo", sans-serif;
+  font-weight: 400;
+}
+
+/* styles.css */
+.navbar-button {
+  background-color: transparent; /* Màu nền mặc định */
+  color: black; /* Màu chữ */
+  border: none; /* Không có viền */
+  border-radius: 0;
+  transition: background-color 0.1s ease, color 0.1s ease; /* Hiệu ứng chuyển màu */
+  height: 64px;
+  font-size: var(--font-size-base);
+  font-weight: 500;
+  font-family: "Exo", sans-serif;
+}
+
+.navbar-button:hover {
+  color: var(--color-primary-hover) !important;
+  background-color: var(--color-primary-default);
+}
+
+.navbar-button:active {
+  background-color: var(--color-neutral-white-grey); /* Màu nền khi click */
+  color: var(--color-primary-hover); /* Màu chữ */
+}
+.navbar-button.active {
+  background-color: var(--color-neutral-white-grey); /* Màu nền khi click */
+  color: var(--color-primary-pressed); /* Màu chữ */
+}
+
+.view-button {
+  color: var(--color-primary-default) !important;
+  border: var(--color-primary-default) !important;
+}
+
+.view-button:hover {
+  color: var(--color-primary-hover) !important;
+  border: var(--color-primary-hover) !important;
+}
+
+.view-button.active {
+  color: white !important;
+  border: var(--color-primary-default) !important;
+  background-color: var(--color-primary-default) !important;
+}
+
+.view-button.ant-btn-variant-solid {
+  color: white !important;
+  border: var(--color-primary-default) !important;
+  background-color: var(--color-primary-default) !important;
+}
+
+.ant-btn-variant-solid {
+  color: white !important;
+  border: var(--color-primary-default) !important;
+  background-color: var(--color-primary-default) !important;
+  font-family: "Jost", sans-serif !important;
+}
+
+.hover-btn.ant-btn-variant-solid {
+  color: white !important;
+  background-color: black !important;
+  font-family: "Jost", sans-serif !important;
+}
+
+.hover-btn.ant-btn-variant-solid:hover {
+  color: white !important;
+  background-color: #2f2f2f !important;
+  font-family: "Jost", sans-serif !important;
+}
+
+.disabled.ant-btn-variant-solid {
+  color: white !important;
+  border: var(--color-primary-default) !important;
+  background-color: gray !important;
+  font-family: "Jost", sans-serif !important;
+}
+
+.disabled.ant-btn-variant-solid:hover {
+  color: white !important;
+  border: var(--color-primary-default) !important;
+  background-color: gray !important;
+  font-family: "Jost", sans-serif !important;
+}
+
+.ant-btn-variant-solid:hover {
+  background-color: var(--color-primary-pressed) !important;
+  font-family: "Jost", sans-serif !important;
+}
+
+.view-button.ant-btn-variant-solid:hover {
+  background-color: var(--color-primary-pressed) !important;
+}
+
+.navbar-button.active:hover {
+  background-color: var(
+    --color-neutral-white-grey
+  ) !important; /* Màu nền khi click */
+}
+
+.dropdown-menu-button {
+  background-color: transparent; /* Màu nền mặc định */
+  color: black; /* Màu chữ */
+  border: none; /* Không có viền */
+  padding: 10px 15px; /* Khoảng cách bên trong */
+  border-radius: 0; /* Bo góc */
+  transition: background-color 0.3s ease, color 0.3s ease; /* Hiệu ứng chuyển màu */
+  height: 60px;
+  width: 100px;
+  font-size: var(--font-size-base);
+  font-weight: 500;
+}
+
+.dropdown-menu-button:hover {
+  background-color: gray; /* Màu nền khi hover */
+}
+
+.dropdown-menu-button:active {
+  background-color: var(--secondary-color); /* Màu nền khi click */
+  color: white; /* Màu chữ */
+}
+.dashboard {
+  /* This ensures that the dashboard content takes full height */
+  height: calc(
+    100vh - 80px
+  ); /* Adjust 80px if your navbar height is different */
+  overflow: auto; /* Enables scrolling if content overflows */
+}
+
+.ant-pagination-item {
+  background-color: transparent !important;
+  border-color: transparent !important;
+  font-weight: normal !important;
+}
+
+.ant-pagination-item-active {
+  background-color: transparent !important;
+  border-color: transparent !important;
+  font-weight: normal !important;
+}
+
+.custom-search .ant-input-wrapper {
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.custom-search input {
+  padding: 0.75rem 1rem;
+  border: none;
+  outline: none;
+  color: #5f6368;
+}
+
+.custom-search .ant-input::placeholder {
+  color: #aaa; /* Placeholder text color */
+}
+
+.custom-search .ant-input-group-addon .ant-btn {
+  background-color: #ff782d;
+  border-radius: 0.5rem !important;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem;
+  margin-right: 0.5rem !important;
+}
+
+.custom-search .ant-input-group-addon {
+  background-color: white;
+}
+
+.custom-search .ant-input-group-addon .ant-btn:hover {
+  background-color: #e56a1f;
+}
+
+.custom-search .ant-input-group-addon .anticon {
+  font-size: 1.2rem;
+}
+
+@keyframes floatIn {
+  0% {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.float-animation {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.5s ease-out;
+}
+
+.float-animation.show {
+  animation: floatIn 0.75s ease forwards;
+}
+@keyframes zigzag {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  25% {
+    transform: translate(4px, -4px) rotate(10deg);
+  }
+  50% {
+    transform: translate(-4px, 4px) rotate(-10deg);
+  }
+  75% {
+    transform: translate(4px, -4px) rotate(10deg);
+  }
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+}
+
+.zigzag {
+  animation: zigzag 3s ease-in-out infinite; /* Set animation to last 3 seconds */
+  animation-delay: 3s; /* Pause for 5 seconds before the next shake */
+}
+
+.custom-checkbox .ant-checkbox-inner {
+  border-color: black !important;
+}
+
+.custom-checkbox .ant-checkbox-checked .ant-checkbox-inner {
+  border-color: black !important;
+  background-color: black !important;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+.ant-card-body {
+  padding: 16px !important;
+  overflow: hidden !important;
+}
+
+.custom-tabs .ant-tabs-nav .ant-tabs-tab:hover {
+  color: #f97316;
+}
+
+.custom-tabs .ant-tabs-nav .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #f97316;
+}
+
+.custom-tabs .ant-tabs-ink-bar {
+  background: #f97316;
+}
+
+.custom-tabs .ant-tabs-tab {
+  transition: color 0.3s;
+  font-size: 1rem;
+}
+
+.custom-card {
+  border: none !important;
+  padding: none !important;
+  overflow: hidden !important;
+  margin: none !important;
+  width: 100% !important;
+}
+
+.custom-card .ant-card-body {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.ant-typography {
+  font-family: "Jost", sans-serif !important;
+}
+
+h2.ant-typography {
+  font-family: "Exo", sans-serif !important;
+}
+
+@keyframes float-in {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}
+
+.animate-float-in {
+  animation: float-in 0.5s ease-out forwards;
+}
+
+.animate-float-out {
+  animation: float-out 0.5s ease-out backwards;
+}
+
+.text-gradient {
+  background: linear-gradient(to right, #ff7e5f, #feb47b);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.bg-gradient {
+  background: linear-gradient(to right, #ff7e5f, #feb47b);
+  -webkit-text-fill-color: transparent;
+}
+
+.loader {
+  width: 32px;
+  height: 32px;
+  position: relative;
+  border-radius: 50%;
+  color: #ff3d00;
+  animation: fill 1s ease-in infinite alternate;
+}
+.loader::before,
+.loader::after {
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  left: 48px;
+  top: 0;
+  animation: fill 0.9s ease-in infinite alternate;
+}
+
+.loader::after {
+  left: auto;
+  right: 48px;
+  animation-duration: 1.1s;
+}
+
+@keyframes fill {
+  0% {
+    box-shadow: 0 0 0 2px inset;
+  }
+  100% {
+    box-shadow: 0 0 0 10px inset;
+  }
+}
+
+.ck-editor__editable {
+  min-height: 200px;
+}
+
+.custom-selector {
+  border-radius: 4rem !important;
+}
+
+.custom-selector .ant-select-selector {
+  border-radius: inherit;
+  background-color: inherit;
+  color: inherit;
+  padding: inherit;
+  font-size: inherit;
+}
+img {
+  image-rendering: -webkit-optimize-contrast;
+}
+
+@keyframes spinOnce {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-once {
+  animation: spinOnce 0.6s ease-in-out;
+}
+
+.subscribed {
+  margin: 0 0.75rem; /* mx-3 */
+}
+
+.not-subscribed {
+  margin: 0 1.5rem; /* mx-6 */
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #f97316;
+}
+
+/* Custom Scrollbar for Firefox */
+.custom-scrollbar { 
+  scrollbar-width: thin;
+  scrollbar-color: #000000 #f1f1f1;
+}
+
+/* Custom Scrollbar for Edge */
+.custom-scrollbar::-ms-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.custom-scrollbar::-ms-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.custom-scrollbar::-ms-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-ms-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.no-select {
+  user-select: none; /* Standard syntax */
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+}
+
+.custom-bottom-gradient {
+  background: linear-gradient(to top, rgba(59, 59, 59, 0.85) -10%, rgba(0, 0, 0, 0) 20%);
+}

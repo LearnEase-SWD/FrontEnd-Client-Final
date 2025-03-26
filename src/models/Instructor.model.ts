@@ -1,0 +1,23 @@
+export type Instructor = {
+  _id: string;
+  email: string;
+  name: string;
+  google_id: string;
+  role: string;
+  status: true;
+  description: string;
+  phone_number: string;
+  avatar_url: string;
+  video_url: string;
+  is_verified: true;
+  token_version: 0;
+  balance: 0;
+  balance_total: 0;
+  bank_name: string;
+  bank_account_no: string;
+  bank_account_name: string;
+  is_deleted: true;
+  dob: Date;
+  created_at: Date;
+  updated_at: Date;
+};

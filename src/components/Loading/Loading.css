@@ -1,0 +1,64 @@
+.loading-page {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: linear-gradient(to right, #2c5364, #203a43, #0f2027);
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+
+
+@keyframes draw {
+  0% {
+    stroke-dashoffset: 4500;
+  }
+
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.logo-name {
+  color: transparent;
+  /* Ban đầu chữ sẽ trong suốt */
+  font-size: 20px;
+  letter-spacing: 12px;
+  text-transform: uppercase;
+  margin-left: 20px;
+  background-image: linear-gradient(90deg,
+      transparent,
+      white,
+      transparent);
+  /* Gradient từ trái sang phải */
+  background-size: 200%;
+  /* Kích thước gradient lớn hơn để tạo hiệu ứng trượt */
+  background-clip: text;
+  -webkit-background-clip: text;
+  animation: logoSlide 4s ease forwards;
+  /* Animation trượt chữ */
+}
+
+/* Animation trượt từ trái sang phải */
+@keyframes logoSlide {
+  0% {
+    background-position: 200% 0;
+    /* Gradient bắt đầu từ ngoài cùng bên trái */
+  }
+
+  100% {
+    background-position: 0 0;
+    /* Kết thúc ở vị trí bình thường */
+  }
+}
+
+.sub-logo {
+  font-size: 16px;
+  letter-spacing: 5px;
+  color: white;
+}
