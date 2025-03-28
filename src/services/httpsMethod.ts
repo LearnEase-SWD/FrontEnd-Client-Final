@@ -12,10 +12,10 @@ import { CreateConversation } from "../models/Conversation.model";
 const getRequest = async <T>(
   url: string,
   showLoading = true
-): Promise<ApiResponse<T>> => {
+): Promise<ApiResponse> => {
   if (showLoading) showLoadingOverlay();
   try {
-    const res: AxiosResponse<ApiResponse<T>> = await axiosClientVer2.get(url);
+    const res: AxiosResponse<ApiResponse> = await axiosClientVer2.get(url);
     return res.data;
   } finally {
     if (showLoading) hideLoadingOverlay();
@@ -27,10 +27,10 @@ const postRequest = async <T>(
   url: string,
   payload: unknown,
   showLoading = true
-): Promise<ApiResponse<T>> => {
+): Promise<ApiResponse> => {
   if (showLoading) showLoadingOverlay();
   try {
-    const res: AxiosResponse<ApiResponse<T>> = await axiosClientVer2.post(
+    const res: AxiosResponse<ApiResponse> = await axiosClientVer2.post(
       url,
       payload
     );

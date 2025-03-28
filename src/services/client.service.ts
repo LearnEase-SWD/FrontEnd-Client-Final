@@ -7,13 +7,13 @@ import { Course } from "../models/Course.model"
 import { getRequest, postRequest } from "./httpsMethod"
 
 const ClientService = {
-    getCourses(): Promise<ApiResponse<APIResponseData<Course>>> {
+    getCourses(): Promise<ApiResponse> {
         return getRequest(CLIENT_API.COURSE_SEARCH, false)
     },
     getCourseDetails(courseId: string):  Promise<ApiResponse>{
         return getRequest(CLIENT_API.COURSE_DETAILS(courseId), false)
     },
-    getCategories():  Promise<ApiResponse<APIResponseData<Category>>> {
+    getCategories():  Promise<ApiResponse> {
         return getRequest(CLIENT_API.CATEGORY_SEARCH,false)
     },
     // getBlogs(params: GetBlogsClient):  Promise<ApiResponse<APIResponseData<Blog>>> {

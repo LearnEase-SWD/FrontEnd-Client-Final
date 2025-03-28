@@ -70,13 +70,13 @@ export default function CoursesPage() {
         keyword: searchText,
       },
       pageInfo: {
-        ...prevParams.pageInfo,
+        ...prevParams.pageInfo, 
         pageNum: 1,
       },
     }));
   };
   const handlePagination = (page: number) => {
-    window.scrollTo(0, 0)
+    window.scrollTo(0,0)
     setNoResult(false);
     setCourses([])
     setSearchParams((prevParams) => {
@@ -99,8 +99,8 @@ export default function CoursesPage() {
   const handleFilterChange = (value: string) => {
     setNoResult(false);
     setCourses([])
-    setSearchParams((prevParams) => {
-      prevParams.set("category", value);
+    setSearchParams((prevParams) => {   
+      prevParams.set("category", value);     
       return prevParams;
     });
     setCoursesParams((prevParams) => ({

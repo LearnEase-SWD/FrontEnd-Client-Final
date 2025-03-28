@@ -60,7 +60,8 @@ const HomePage = () => {
 
     const fetchCategories = async () => {
       const response = await ClientService.getCategories();
-      setCategories(response?.data?.pageData ?? []);
+      setCategories(response?.data ?? []);
+      console.log(response?.data)
     };
 
 
