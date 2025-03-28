@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios"; // Import axios for HTTP requests
 import {
   Form,
   Input,
@@ -28,7 +29,6 @@ const { Title, Text } = Typography;
 
 interface CheckoutPageProps {
   carts: Cart[];
-  // navigate: (path: string) => void;
   cancelCart: (cartItem: CartItem) => void;
   checkout: () => void;
   isLoading?: boolean;
@@ -37,8 +37,7 @@ interface CheckoutPageProps {
 const CheckoutPage: React.FC<CheckoutPageProps> = ({
   carts,
   cancelCart,
-  checkout,
-  isLoading = false
+  isLoading = false,
 }) => {
   const [paymentMethod, setPaymentMethod] = useState("credit_card");
   const { currentUser } = useSelector((state: RootState) => state.auth.login);
@@ -46,11 +45,29 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({
 
   const total = carts.reduce((sum, cart) => sum + cart.price_paid, 0);
 
-  // const onFinish = (values: any) => {
-  //   console.log('Success:', values);
-  //   message.success('Order placed successfully!');
-  //   navigate('/');
-  // };
+  const checkout = async (values: any) => {
+    const paymentData = {
+      Type: paymentMethod, // Payment method selected by the user
+      Amount: total, // Total price of items in the cart
+      Description: "Payment for courses", // Description of the payment
+      Name: values.fullName, // Full name from the form
+      Address: values.email, // Email from the form
+    };
+
+    try {
+      const response = await axios.post(
+        "http://localhost:5121/api/pay/Checkout",
+        paymentData
+      );
+      const paymentUrl = response.data;
+
+      message.success("Redirecting to payment gateway...");
+      window.location.href = paymentUrl; // Redirect to the payment URL
+    } catch (error) {
+      console.error("Payment error:", error);
+      message.error("Failed to initiate payment. Please try again.");
+    }
+  };
 
   const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo);
@@ -80,14 +97,14 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({
                         message: "Please input your full name!",
                       },
                     ]}
-                    initialValue={currentUser?.name}
+                    initialValue={currentUser?.userName}
                   >
                     <Input />
                   </Form.Item>
                   <Form.Item
                     name="email"
                     label="Email"
-                    initialValue={currentUser?.email}
+                    initialValue={currentUser?.userEmail}
                     rules={[
                       { required: true, message: "Please input your email!" },
                       { type: "email", message: "Please enter a valid email!" },
@@ -175,9 +192,11 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({
                   dataSource={carts}
                   renderItem={(cart) => (
                     <List.Item key={cart._id} className="flex-col flex">
-                      {cart.discount > 0 &&
-                      <div className="flex w-full h-2 text-gray-400 line-through  justify-end items-center">
-                          <Text className="text-gray-400">{moneyFormatter(cart.price)}</Text>
+                      {cart.discount > 0 && (
+                        <div className="flex w-full h-2 text-gray-400 line-through  justify-end items-center">
+                          <Text className="text-gray-400">
+                            {moneyFormatter(cart.price)}
+                          </Text>
                           <Button
                             type="link"
                             className="text-gray-500 opacity-0 underline text-xs px-2 font-semibold hover:!text-red-500"
@@ -185,11 +204,15 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({
                             Cancel
                           </Button>
                         </div>
-                    }
+                      )}
                       <div className="justify-between flex w-full">
-                        <Text className="overflow-hidden whitespace-nowrap overflow-ellipsis">{cart.course_name}</Text>
+                        <Text className="overflow-hidden whitespace-nowrap overflow-ellipsis">
+                          {cart.course_name}
+                        </Text>
                         <div className="flex  justify-end items-center">
-                          <Text className="whitespace-nowrap">{moneyFormatter(cart.price_paid)}</Text>
+                          <Text className="whitespace-nowrap">
+                            {moneyFormatter(cart.price_paid)}
+                          </Text>
                           <Button
                             type="link"
                             onClick={() => cancelCart(cart)}
@@ -199,9 +222,7 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({
                           </Button>
                         </div>
                       </div>
-                      
                     </List.Item>
-                    
                   )}
                 />
                 <Divider />
@@ -214,8 +235,8 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({
               </Card>
             </div>
           </div>
-        )} 
-        
+        )}
+
         {carts.length === 0 && isLoading === false && (
           <Empty
             image={Empty.PRESENTED_IMAGE_SIMPLE}
