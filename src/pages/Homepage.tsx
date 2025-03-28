@@ -149,9 +149,9 @@ const HomePage = () => {
               <div className="flex sm:flex-row flex-col  justify-between items-center mb-8">
                 <div>
                   <h2 className="text-2xl mb-2 sm:mb-0 lg:text-4xl font-bold text-gray-800">
-                    Featured Categories
+                    Featured Topics
                   </h2>
-                  <a href="/course" onClick={() => navigate("/course")} className="text-orange-600 cursor-pointer underline sm:no-underline sm:text-gray-600">Explore our Popular Categories </a>
+                  <a href="/course" onClick={() => navigate("/course")} className="text-orange-600 cursor-pointer underline sm:no-underline sm:text-gray-600">Explore our Popular Topics </a>
 
                 </div>
                 <Button
