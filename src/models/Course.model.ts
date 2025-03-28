@@ -9,7 +9,6 @@ export interface Course {
   courseID: string;
   topicID: string;
   title: string;
-  category_id: string;
   description: string;
   content: string; // Assuming content is HTML string
   status: string;
@@ -24,7 +23,7 @@ export interface Course {
   price_paid: number;
   full_time: number;
   user_name: string;
-  category_name: string;
+  name: string;
   totalLessons: number;
   session_list: Session[];
   is_in_cart: boolean;

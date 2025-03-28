@@ -94,11 +94,11 @@ export const Banner = ({
               className="w-full h-full object-cover rounded-lg"
             />
             <div className="absolute top-2 left-2 bg-orange-500 text-white font-bold px-4 py-2 rounded-lg">
-              {course.category_name}
+              {course.name}
             </div>
           </div>
           <div className="hidden lg:block bg-orange-500 text-white font-bold px-4 py-2 rounded-lg">
-            {course.category_name}
+            {course.name}
           </div>
           <div className="font-jost text-5xl font-bold text-gradient">
             {course.title}
@@ -190,7 +190,7 @@ export const Banner = ({
           <div className="absolute inset-0" onClick={() => handlePreview()}>
             <img
               src={course.image_url}
-              alt="Course"
+              alt={course.title}
               className="rounded-lg w-full h-full object-cover"
             />
 
