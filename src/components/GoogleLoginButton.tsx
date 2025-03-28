@@ -1,67 +1,93 @@
-// GoogleLoginButton.js
 import { useDispatch } from "react-redux";
-import { loginWithGoogle } from "../redux/slices/authSlices";
+import { loginWithGoogle, LoginWithGooglePayload, LoginWithGoogleReturn } from "../redux/slices/authSlices";
 import { FcGoogle } from "react-icons/fc";
-import axios from 'axios';
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { Modal } from "antd";
+import { RootState } from "../redux/store/store";
+import { AnyAction, ThunkDispatch } from "@reduxjs/toolkit";
+import { Dispatch } from "redux";
 
-const GoogleLoginButton = () => {
-    const dispatch = useDispatch();
+interface MessageData {
+    accessToken: string;
+}
+
+const GoogleLoginButton: React.FC = () => {
+    const dispatch: ThunkDispatch<RootState, undefined, AnyAction> & Dispatch<AnyAction> = useDispatch();
+    const navigate = useNavigate();
 
     const handleGoogleLogin = async () => {
-      try {
-        const authWindow = window.open("http://localhost:5121/api/auth/loginPage", "_blank");
-    
-        if (authWindow) {
-          const handleMessage = async (event: MessageEvent) => {
-            if (event.origin === "http://localhost:5121") {
-              authWindow?.close();
-              window.removeEventListener("message", handleMessage);
-    
-              // Kiểm tra xem event.data có accessToken không
-              if (!event.data || typeof event.data.accessToken !== "string") {
-                console.error("Invalid access token received");
-                return;
-              }
-    
-              const accessToken: string = event.data.accessToken;
-    
-              try {
-                const response = await axios.get<{ accessToken: string }>(
-                  `https://localhost:7002/api/auth/google-login?accessToken=${accessToken}`
-                );
-    
-                const token = response.data.accessToken;
-    
-                // Kiểm tra kiểu của dispatch trước khi gọi
-                if (typeof dispatch === "function") {
-                  dispatch<any>(loginWithGoogle({ accessToken: token, userEmail: null, userName: null }))
-                    .unwrap()
-                    .then(() => {
-                      console.log("Login successful");
-                    })
-                    .catch((err: unknown) => {
-                      console.error("Login failed:", err);
-                    });
-                } else {
-                  console.error("Dispatch is not a function");
-                }
-              } catch (apiError) {
-                console.error("API request failed:", apiError);
-              }
-            }
-          };
-    
-          window.addEventListener("message", handleMessage, false);
-        } else {
-          console.error("Failed to open authentication window.");
-        }
-      } catch (error) {
-        console.error("Google login error:", error);
-      }
-    };
-    
+        try {
+            const authWindow = window.open("https://localhost:7002/api/auth/login", "_blank");
 
-  
+            if (authWindow) {
+                const handleMessage = async (event: MessageEvent) => {
+                    if (event.origin === "http://localhost:5121") {
+                        authWindow?.close();
+                        window.removeEventListener("message", handleMessage);
+
+                        if (!event.data || typeof event.data.accessToken !== "string") {
+                            console.error("Invalid access token received");
+                            Modal.error({
+                                title: "Login Error",
+                                content: "Invalid access token received",
+                            });
+                            return;
+                        }
+
+                        const accessToken = (event.data as MessageData).accessToken;
+
+                        try {
+                            const response = await axios.get<{ accessToken: string, userEmail: string }>(
+                                `https://localhost:7002/api/auth/google-login?accessToken=${accessToken}`
+                            );
+                            const userData = response.data;
+
+                            dispatch(
+                                loginWithGoogle({
+                                    accessToken: userData.accessToken,
+                                    userEmail: userData.userEmail,
+                                })
+                            )
+                                .unwrap()
+                                .then(() => {
+                                    console.log("Login successful");
+                                    navigate("/");
+                                })
+                                .catch((err: any) => {
+                                    console.error("Login failed:", err);
+                                    Modal.error({
+                                        title: "Login Error",
+                                        content: err.message || "Login failed.",
+                                    });
+                                });
+                        } catch (apiError: any) {
+                            console.error("API request failed:", apiError);
+                            Modal.error({
+                                title: "Login Error",
+                                content: "API request failed.",
+                            });
+                        }
+                    }
+                };
+
+                window.addEventListener("message", handleMessage, false);
+            } else {
+                console.error("Failed to open authentication window.");
+                Modal.error({
+                    title: "Login Error",
+                    content: "Failed to open authentication window.",
+                });
+            }
+        } catch (error: any) {
+            console.error("Google login error:", error);
+            Modal.error({
+                title: "Login Error",
+                content: "Google login error.",
+            });
+        }
+    };
+
     return (
         <button
             onClick={handleGoogleLogin}
