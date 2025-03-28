@@ -35,6 +35,8 @@ import ProfilePage from "./pages/profile/ProfilePage";
 import StudentOrderHistory from "./pages/StudentDashboard/StudentOrderHistory";
 import VerifySuccessToken from "./pages/AuthPage/VerifyToken";
 import { gapi } from "gapi-script";
+import MessagePage from "./pages/Message";
+import CallbackPage from "./pages/CallbackPage";
 
 // import MessageLayout from "./components/Message/MessageLayout";
 // import MessageDetailPage from "./components/Message/MessageDetailPage";
@@ -59,6 +61,7 @@ function App() {
         <LoadingWrapper>
           <Routes>
             {/* General Layout */}
+            <Route path="/callback" element={<CallbackPage/>} />
             <Route path="/" element={<GeneralLayout />}>
               <Route path="/" element={<HomePage />} />
               <Route
@@ -83,6 +86,7 @@ function App() {
                 path="/verify-email/:verification_id"
                 element={<VerifySuccessToken />}
               />
+              <Route path="/message" element={<MessagePage />} />
               <Route path="/course" element={<CoursesPage />} />
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/faqs" element={<FAQsPage />} />
