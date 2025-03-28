@@ -4,133 +4,102 @@ import { SearchFilter } from "../components/courses/SearchFilter";
 import { SearchResults } from "../components/courses/SearchResult";
 import DynamicBreadcrumb from "../components/Breadcrumb/Breadcrumb";
 import { Course } from "../models/Course.model";
-import { GetCategoriesClient, GetCourseClient } from "../models/Client.model";
 import ClientService from "../services/client.service";
 import { useSearchParams } from "react-router-dom"; // For handling query params
 import { Category } from "../models/Category.model";
 
-const initialCoursesParams: GetCourseClient = {
-  pageInfo: {
-    pageNum: 1,
-    pageSize: 9,
-  },
-  searchCondition: {
-    keyword: "",
-    is_deleted: false,
-    category_id: "",
-  },
-};
-
-const initialCategoriesParams: GetCategoriesClient = {
-  pageInfo: {
-    pageNum: 1,
-    pageSize: 100,
-  },
-  searchCondition: {
-    keyword: "",
-    is_deleted: false,
-  },
-};
+const pageSize = 9;
 
 export default function CoursesPage() {
+  const [allCourses, setAllCourses] = useState<Course[]>([]);
   const [courses, setCourses] = useState<Course[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const [noResult, setNoResult] = useState(false);
   const [totalItems, setTotalItems] = useState<number>();
-
-
-  const initialKeyword = searchParams.get("search") || "";
-  const initialCategoryId = searchParams.get("category") || "";
   const initialPageNo = Number(searchParams.get("page") || 1);
-
-  const [coursesParams, setCoursesParams] = useState<GetCourseClient>({
-    pageInfo: {
-      pageNum: initialPageNo,
-      pageSize: initialCoursesParams.pageInfo.pageSize
-    },
-    searchCondition: {
-      ...initialCoursesParams.searchCondition,
-      keyword: initialKeyword,
-      category_id: initialCategoryId,
-    },
-  });
+  const [currentPage, setCurrentPage] = useState(initialPageNo);
+  const categoryParam = searchParams.get("category");
 
   const handleSearch = (searchText: string) => {
     setNoResult(false);
-    setCourses([])
     setSearchParams((prevParams) => {
       prevParams.set("search", searchText);
       return prevParams;
     });
-    setCoursesParams((prevParams) => ({
-      ...prevParams,
-      searchCondition: {
-        ...prevParams.searchCondition,
-        keyword: searchText,
-      },
-      pageInfo: {
-        ...prevParams.pageInfo, 
-        pageNum: 1,
-      },
-    }));
+
+
+    const filteredCourses = searchText
+      ? allCourses.filter(course =>
+        course.title.toLowerCase().includes(searchText.toLowerCase())
+      )
+      : allCourses;
+
+    setCourses(filteredCourses);
+    setTotalItems(filteredCourses.length);
+    setCurrentPage(1);
+    setNoResult(filteredCourses.length === 0);
   };
+
   const handlePagination = (page: number) => {
-    window.scrollTo(0,0)
-    setNoResult(false);
-    setCourses([])
+    setCurrentPage(page);
     setSearchParams((prevParams) => {
       prevParams.set("page", String(page));
       return prevParams;
     });
+  };
 
-    setCoursesParams((prevParams) => ({
-      ...prevParams,
-      searchCondition: {
-        ...prevParams.searchCondition,
-      },
-      pageInfo: {
-        ...prevParams.pageInfo,
-        pageNum: page
-      },
-    }));
-  }
 
-  const handleFilterChange = (value: string) => {
-    setNoResult(false);
-    setCourses([])
-    setSearchParams((prevParams) => {   
-      prevParams.set("category", value);     
+
+  const handleFilterChange = (topicID: string) => {
+    setSearchParams((prevParams) => {
+      prevParams.set("category", topicID);
       return prevParams;
     });
-    setCoursesParams((prevParams) => ({
-      ...prevParams,
-      searchCondition: {
-        ...prevParams.searchCondition,
-        category_id: value,
-      },
-      pageInfo: {
-        ...prevParams.pageInfo,
-        pageNum: 1,
-      },
-    }));
+
+    // Lọc khóa học theo category_id
+    const filteredCourses = topicID
+      ? allCourses.filter(course => course.topicID === topicID)
+      : allCourses; // Nếu bỏ lọc, hiển thị tất cả
+
+    setCourses(filteredCourses);
+    setTotalItems(filteredCourses.length);
+    setCurrentPage(1);
+    setNoResult(filteredCourses.length === 0);
   };
+
 
   const fetchCategories = async () => {
     const response = await ClientService.getCategories();
     setCategories(response?.data ?? []);
   };
+  useEffect(() => {
+    if (categoryParam) {
+      const filteredCourses = allCourses.filter(course => course.topicID === categoryParam);
+      setCourses(filteredCourses);
+      setTotalItems(filteredCourses.length);
+      setCurrentPage(1);
+      setNoResult(filteredCourses.length === 0);
+    }
+  }, [searchParams.get("category"), allCourses]); 
 
+  const paginatedCourses = courses.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize
+  );
   useEffect(() => {
     const fetchCourses = async () => {
       const response = await ClientService.getCourses();
-      if (response.data === null) setNoResult(true);
-      setCourses(response?.data ?? []);
-      setTotalItems(response?.data?.pageInfo?.totalItems);
+      const fetchedCourses = response?.data ?? [];
+
+      setAllCourses(fetchedCourses);
+      setCourses(fetchedCourses); // Ban đầu hiển thị tất cả khóa học
+      setTotalItems(fetchedCourses.length); // Cập nhật tổng số lượng
     };
 
     fetchCourses();
-  }, [coursesParams]);
+  }, []);
+
 
   useEffect(() => {
     fetchCategories();
@@ -144,11 +113,12 @@ export default function CoursesPage() {
       <Layout className="relative">
         <SearchResults
           noResult={noResult}
-          courses={courses}
+          courses={paginatedCourses}
           onSearch={handleSearch}
-          searchQuery={coursesParams.searchCondition.keyword}
+          searchQuery={searchParams.get("search") || ""}
           onPaginate={handlePagination}
           totalItems={totalItems}
+          pageSize={pageSize}
         />
         <SearchFilter
           onChange={handleFilterChange}
@@ -156,12 +126,12 @@ export default function CoursesPage() {
             {
               title: "Search Categories",
               options: categories.map((cat) => ({
-                value: cat._id,
+                value: cat.topicID,
                 label: cat.name,
               })),
             },
           ]}
-          selectedFilter={coursesParams.searchCondition.category_id}
+          selectedFilter={searchParams.get("category") || ""}
         />
       </Layout>
     </main>
