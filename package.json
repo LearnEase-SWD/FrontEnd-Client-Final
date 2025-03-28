@@ -1,5 +1,5 @@
 {
-  "name": "edumaster",
+  "name": "learnease",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -23,7 +23,7 @@
     "axios": "^1.7.7",
     "dayjs": "^1.11.13",
     "dotenv": "^16.4.5",
-    "edumaster": "file:",
+    "learnease": "file:",
     "esbuild": "^0.24.0",
     "firebase": "^10.14.1",
     "gapi-script": "^1.2.0",
