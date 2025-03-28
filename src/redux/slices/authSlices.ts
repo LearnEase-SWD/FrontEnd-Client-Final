@@ -50,27 +50,30 @@ const initialState: AuthState = {
     success: false,
   },
 };
+export interface LoginWithGooglePayload {
+  accessToken: string;
+  userEmail: string;
+}
 
+export interface LoginWithGoogleReturn {
+  accessToken: string;
+  userEmail: string;
+}
 // Google Login function
-export const loginWithGoogle = createAsyncThunk(
+export const loginWithGoogle = createAsyncThunk<LoginWithGoogleReturn, LoginWithGooglePayload, { rejectValue: string }>(
   "auth/loginWithGoogle",
-  async ({ accessToken, userEmail, userName }: { accessToken: string; userEmail: string | null; userName: string | null }, { rejectWithValue }) => {
-    try {
-      const response = await axios.get("https://localhost:7002/api/auth/callbackPage", {
-        headers: { Authorization: `Bearer ${accessToken}` }
-      });
-      const data = response.data;
-
-      // Lưu dữ liệu vào localStorage
-      localStorage.setItem("token", data.accessToken);
-      localStorage.setItem("user", JSON.stringify({ ...data, userEmail, userName }));
-
-      return { ...data, userEmail, userName };
-    } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || "Login failed");
-    }
+  async ({ accessToken, userEmail }, { rejectWithValue }) => {
+      try {
+          localStorage.setItem("token", accessToken);
+          return { accessToken, userEmail };
+      } catch (error: any) {
+          return rejectWithValue(error.message || "An unknown error occurred");
+      }
   }
 );
+
+
+
 
 // Google Register function
 export const registerWithGoogle = createAsyncThunk<
