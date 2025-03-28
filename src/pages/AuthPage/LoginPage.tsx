@@ -9,6 +9,7 @@ import { AppDispatch, RootState } from "../../redux/store/store";
 import ModalRegisterGoogle from "../../components/ModalRegisterGoogle";
 import GoogleLoginButton from "../../components/GoogleLoginButton";
 import { loginWithGoogle } from "../../redux/slices/authSlices";
+
 export type LoginProps = {
   email: string;
   password: string;
@@ -39,19 +40,29 @@ const Loginpage = () => {
         navigate('/');
       } catch (error) {
         console.error('Error parsing user info:', error);
-        // Handle parsing error
+        Modal.error({
+          title: 'Login Error',
+          content: 'Có lỗi xảy ra khi xử lý đăng nhập. Vui lòng thử lại.',
+        });
       }
     } else if (errorParam) {
-      // Handle login errors
       Modal.error({
         title: 'Login Error',
-        content: 'There was an issue logging in. Please try again.',
+        content: 'Có lỗi xảy ra khi đăng nhập. Vui lòng thử lại.',
       });
     }
   }, [navigate]);
 
   const handleGoogleLogin = () => {
-    window.location.href = "http://localhost:5121/api/auth/login";
+    try {
+      window.location.href = "https://localhost:7002/api/auth/loginPage";
+    } catch (error) {
+      console.error("Error while redirecting to Google login:", error);
+      Modal.error({
+        title: "Login Error",
+        content: "Could not initiate Google login. Please try again.",
+      });
+    }
   };
 
   return (
@@ -85,4 +96,5 @@ const Loginpage = () => {
     </div>
   );
 };
+
 export default Loginpage;
