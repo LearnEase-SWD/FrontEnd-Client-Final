@@ -20,12 +20,15 @@ export default function AppFooter() {
               <div className="w-[100px] h-[90px] max-h-[90px] flex justify-center rounded-lg items-center mb-4 bg-white relative overflow-hidden">
                 <img
                   src={mainImage}
-                  alt="EduMaster Logo"
+                  alt="LearnEase Logo"
                   width={200}
                   className="max-w-80 mt-[20px]"
                 />
               </div>
-              <p className="text-lg font-semibold italic mb-4 font-exo text-white">
+              <p className="text-2xl font-semibold  mb-4 font-exo text-orange-500">
+                Learn Ease
+              </p>
+              <p className="text-lg  italic mb-4 font-exo text-white">
                 "The right knowledge, a bright future."
               </p>
             </div>
@@ -90,8 +93,7 @@ export default function AppFooter() {
         <Row justify="center">
           <Col>
             <Text className="text-sm text-gray-400">
-              Copyright © {new Date().getFullYear()} Learn Ease for
-              your future | Powered by Team SWD
+              Copyright © {new Date().getFullYear()} Learn Ease  | Powered by Team SWD
             </Text>
           </Col>
         </Row>

@@ -27,8 +27,8 @@ export const ProofOfProduct = () => {
               className="h-40 mt-auto  text-white bg-zinc-800 hover:bg-orange-500 transition-all shadow-2xl rounded-xl text-center flex flex-col items-center align-center justify-center"
               hoverable
             >
-              <h3 className="text-4xl lg:text-5xl font-semibold">253+</h3>
-              <p>Active Instructors</p>
+              <h3 className="text-4xl lg:text-5xl font-semibold">253h+</h3>
+              <p>Learning Time</p>
             </Card>
             <Card
               className="h-40 mt-auto  text-white bg-zinc-800 hover:bg-orange-500 transition-all shadow-2xl rounded-xl text-center flex flex-col items-center align-center justify-center"

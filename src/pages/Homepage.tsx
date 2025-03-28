@@ -212,7 +212,7 @@ const HomePage = () => {
         <section className="mt-4 p-8 pb-0 float-animation bg-zinc-50 rounded-3xl">
           <div>
             <h2 className="text-2xl lg:text-4xl font-bold text-gray-800 text-center">
-              Students Love Us. Instructors Do Too{" "}
+              Students Love Us{" "}
             </h2>
             <p className="text-orange-600 text-center">
               Learn <span className="underline font-semibold">anything</span>{" "}
