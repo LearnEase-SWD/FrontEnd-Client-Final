@@ -70,13 +70,13 @@ export default function CoursesPage() {
         keyword: searchText,
       },
       pageInfo: {
-        ...prevParams.pageInfo, 
+        ...prevParams.pageInfo,
         pageNum: 1,
       },
     }));
   };
   const handlePagination = (page: number) => {
-    window.scrollTo(0,0)
+    window.scrollTo(0, 0)
     setNoResult(false);
     setCourses([])
     setSearchParams((prevParams) => {
@@ -99,8 +99,8 @@ export default function CoursesPage() {
   const handleFilterChange = (value: string) => {
     setNoResult(false);
     setCourses([])
-    setSearchParams((prevParams) => {   
-      prevParams.set("category", value);     
+    setSearchParams((prevParams) => {
+      prevParams.set("category", value);
       return prevParams;
     });
     setCoursesParams((prevParams) => ({
@@ -117,15 +117,15 @@ export default function CoursesPage() {
   };
 
   const fetchCategories = async () => {
-    const response = await ClientService.getCategories(initialCategoriesParams);
-    setCategories(response?.data?.pageData ?? []);
+    const response = await ClientService.getCategories();
+    setCategories(response?.data ?? []);
   };
 
   useEffect(() => {
     const fetchCourses = async () => {
-      const response = await ClientService.getCourses(coursesParams);
-      if (response.data?.pageInfo?.totalItems === 0) setNoResult(true);
-      setCourses(response?.data?.pageData ?? []);
+      const response = await ClientService.getCourses();
+      if (response.data === null) setNoResult(true);
+      setCourses(response?.data ?? []);
       setTotalItems(response?.data?.pageInfo?.totalItems);
     };
 

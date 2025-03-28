@@ -174,30 +174,30 @@ const LearnCoursePage = () => {
     return <Skeleton />;
   }
 
-  if (course.is_purchased === false) {
-    return (
-      <div className="my-40">
-        <div className="font-exo text-2xl font-bold pt-8 text-center">
-          You don't own this course yet! Redirect to course purchase page in{" "}
-          <span
-            className={`transition-all duration-500 ${colors[countdown - 1]}`} // Apply color to the countdown number only
-          >
-            {countdown}
-          </span>{" "}
-          seconds.
-        </div>
-        <div className="font-exo text-center pt-4">
-          If you are not redirected automatically,{" "}
-          <button
-            className="text-orange-500 underline px-2"
-            onClick={() => navigate(`/course/${courseId}`)}
-          >
-            go to purchase
-          </button>
-        </div>
-      </div>
-    );
-  }
+  // if (course.is_purchased === false) {
+  //   return (
+  //     <div className="my-40">
+  //       <div className="font-exo text-2xl font-bold pt-8 text-center">
+  //         You don't own this course yet! Redirect to course purchase page in{" "}
+  //         <span
+  //           className={`transition-all duration-500 ${colors[countdown - 1]}`} // Apply color to the countdown number only
+  //         >
+  //           {countdown}
+  //         </span>{" "}
+  //         seconds.
+  //       </div>
+  //       <div className="font-exo text-center pt-4">
+  //         If you are not redirected automatically,{" "}
+  //         <button
+  //           className="text-orange-500 underline px-2"
+  //           onClick={() => navigate(`/course/${courseId}`)}
+  //         >
+  //           go to purchase
+  //         </button>
+  //       </div>
+  //     </div>
+  //   );
+  // }
   return (
     <div className="fixed top-0 left-0 z-50 bg-white w-full h-[100vh] no-select">
       <div className="h-[8vh]">

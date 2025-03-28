@@ -10,7 +10,8 @@ interface DecodedToken {
 }
 // Tạo instance của axios
 export const axiosClientVer2 = axios.create({
-  baseURL: "https://edumaster-api-dev.vercel.app",
+  // baseURL: "https://edumaster-api-dev.vercel.app",
+  baseURL: "http://localhost:5121/api/",
   timeout: 600000, // Request timeout
   headers: {
     "Content-Type": "application/json",
@@ -20,7 +21,7 @@ export const axiosClientVer2 = axios.create({
 // Request Interceptor
 axiosClientVer2.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    const token = localStorage.getItem("token"); 
+    const token = localStorage.getItem("token");
 
     if (token) {
       config.headers["Authorization"] = `Bearer ${token}`;

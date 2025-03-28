@@ -4,11 +4,11 @@ import { getRequest, postRequest } from "../../services/httpsMethod";
 import { User } from "../../models/UserModel";
 import { ModalRegisterGoogleProps } from "../../components/ModalRegisterGoogle";
 import { handleNotify } from "../../utils/handleNotify";
-
+import axios from 'axios';
 export interface AuthState {
   login: {
     token: string | null;
-    currentUser: User;
+    currentUser: User | null;
     loading: boolean;
     error: string | null;
     success: boolean;
@@ -29,11 +29,11 @@ export interface AuthState {
 }
 
 const token = localStorage.getItem("token");
-const currentUser = JSON.parse(localStorage.getItem("user") ?? "{}");
+
 const initialState: AuthState = {
   login: {
     loading: false,
-    currentUser: currentUser,
+    currentUser: null,
     token: token,
     error: null,
     success: false,
@@ -51,55 +51,50 @@ const initialState: AuthState = {
   },
 };
 
-// Login function
-export const login = createAsyncThunk<
-  AuthState,
-  { email: string; password: string },
-  { rejectValue: string }
->("auth/login", async ({ email, password }, thunkAPI) => {
-  const { dispatch } = thunkAPI;
-  const response = await postRequest("/api/auth", { email, password });
-  localStorage.setItem("token", (response as any).data.token);
-  if (response.success) {
-    await dispatch(getCurrentUser());
-  }
-  return response.data as AuthState;
-});
+
 
 // Google Login function
-export const loginWithGoogle = createAsyncThunk<
-  AuthState,
-  string,
-  { rejectValue: string }
->("auth/loginGoogle", async (google_id, thunkAPI): Promise<AuthState> => {
-  const { dispatch } = thunkAPI;
-  const response = await postRequest("/api/auth/google", {
-    google_id: google_id,
-  });
-  console.log("res gg", response.message);
-  localStorage.setItem("token", (response as any).data.token);
-  if (response.success) {
-    await dispatch(getCurrentUser());
+export const loginWithGoogle = createAsyncThunk(
+  'auth/loginWithGoogle',
+  async (accessToken: string, { rejectWithValue }) => {
+    try {
+      // Make an API call to verify the token and get user details
+      const response = await axios.post('http://localhost:5121/api/auth/callback',
+        { accessToken },
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+
+      // Store token and user info in localStorage
+      localStorage.setItem('token', response.data.accessToken);
+      localStorage.setItem('user', JSON.stringify(response.data));
+
+      return response.data;
+    } catch (error) {
+      // Handle error
+      console.error('Google login error:', error);
+      return rejectWithValue('Login failed');
+    }
   }
-
-  return response.data as AuthState;
-});
-
+);
 // Google Register function
 export const registerWithGoogle = createAsyncThunk<
   AuthState,
   ModalRegisterGoogleProps
 >("auth/registerGoogle", async (formData) => {
-  const response = await postRequest("/api/users/google", formData);
+  const response = await postRequest("auth/login", formData);
   handleNotify("Sign Up Successful!", "Please check your email")
-  
+
   localStorage.setItem("token", (response as any).data.token);
   return response.data as AuthState;
 });
 
 // Get Current User function
 export const getCurrentUser = createAsyncThunk("auth/user", async () => {
-  const res = await getRequest("/api/auth");
+  const res = await getRequest("auth/login");
   localStorage.setItem("user", JSON.stringify(res.data));
   handleNotify("Login successfully", " ");
   return res.data;
@@ -137,26 +132,14 @@ export const authSlice = createSlice({
       state.resendToken.loading = false;
       state.resendToken.success = false;
     },
-    setIsLoginGoogleStart:(state, action)=>{
+    setIsLoginGoogleStart: (state, action) => {
       state.login.googleId = action.payload
     }
 
   },
   extraReducers: (builder) => {
     builder
-      .addCase(login.pending, (state) => {
-        state.login.loading = true;
-      })
-      .addCase(login.fulfilled, (state) => {
-        state.login.loading = false;
 
-        state.login.success = true;
-      })
-      .addCase(login.rejected, (state) => {
-        state.login.loading = false;
-        state.login.error = "Login failed";
-        state.login.success = false;
-      })
       .addCase(getCurrentUser.pending, (state) => {
         state.login.loading = true;
       })
@@ -172,15 +155,22 @@ export const authSlice = createSlice({
       })
       .addCase(loginWithGoogle.pending, (state) => {
         state.login.loading = true;
+        state.login.error = null;
       })
-      .addCase(loginWithGoogle.fulfilled, (state) => {
+      .addCase(loginWithGoogle.fulfilled, (state, action) => {
         state.login.loading = false;
+        state.login.currentUser = action.payload;
+        state.login.token = action.payload.accessToken;
         state.login.success = true;
+
+        // Determine if additional registration is needed
+        state.login.is_register_google = action.payload.isNewUser || false;
       })
-      .addCase(loginWithGoogle.rejected, (state) => {
+      .addCase(loginWithGoogle.rejected, (state, action) => {
         state.login.loading = false;
-        state.login.success = false;
-        state.login.is_register_google = true;
+        state.login.error = action.payload as string;
+        state.login.currentUser = null;
+        state.login.token = null;
       })
       .addCase(registerWithGoogle.pending, (state) => {
         state.login.loading = true;
@@ -188,7 +178,7 @@ export const authSlice = createSlice({
       .addCase(registerWithGoogle.fulfilled, (state) => {
         state.login.loading = false;
         state.login.success = true;
-        
+
       })
       .addCase(registerWithGoogle.rejected, (state) => {
         state.login.loading = false;

@@ -6,9 +6,9 @@ export interface APIResponseData<T = unknown> {
     pageInfo?: PageInfo;
 }
 
-export interface ApiResponse<T = unknown> {
+export interface ApiResponse<> {
     success: boolean;
-    data?: T extends APIResponseData<infer U> ? APIResponseData<U> : T;
+    data?: [];
     message?: string;
     errors?: ApiError[];
   }

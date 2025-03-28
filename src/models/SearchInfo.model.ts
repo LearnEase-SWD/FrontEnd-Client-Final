@@ -1,4 +1,4 @@
-import { CourseStatusEnum } from "../pages/AdminDashboard/monitors/course/courseList";
+
 import { LessonTypeEnum } from "./Lesson.model";
 import { PurchaseStatusEnum } from "./Purchase.model";
 
@@ -13,8 +13,6 @@ export interface SearchCondition<T = unknown> {
 export interface CourseLogSearchCondition {
   course_id: string;
   keyword?: string;
-  old_status: CourseStatusEnum | "";
-  new_status: CourseStatusEnum | "";
   is_deleted: false;
 }
 
@@ -61,7 +59,7 @@ export interface CoursesSearchParams {
 }
 
 export interface PageInfo {
-  pageNum: number;
+  pageIndex: number;
   pageSize: number;
   totalItems?: number;
   totalPages?: number;

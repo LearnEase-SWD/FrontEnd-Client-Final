@@ -33,7 +33,7 @@ export const Detail = ({ course, session }: Props) => {
   const handleGoToLesson = (sessionIndex: number, lesson: Lesson) => {
     sessionStorage.setItem("sessionIndex", sessionIndex.toString());
     sessionStorage.setItem("lessonIndex", JSON.stringify(lesson));
-    navigate("/learn/" + course?._id);
+    navigate("/learn/" + course?.courseID);
   };
 
   const toggleShowMore = () => {
@@ -56,7 +56,7 @@ export const Detail = ({ course, session }: Props) => {
             >
               {showMore ? "Show Less" : "Show More"}
             </button>
-            {course.tag.length > 0 && (
+            {/* {course.tag.length > 0 && (
               <div>
                 <div className="text-xl font-bold pb-2 pt-4">Tags</div>
                 <div className="flex flex-wrap gap-2 text-sm">
@@ -70,7 +70,7 @@ export const Detail = ({ course, session }: Props) => {
                   ))}
                 </div>
               </div>
-            )}
+            )} */}
           </div>
           <div>
             <div className="text-xl font-bold pb-2 pt-4">Curriculum</div>
@@ -198,7 +198,7 @@ export const Detail = ({ course, session }: Props) => {
             </div>
             <div>
               <div className="text-xl font-bold pb-2 pt-4">Comment</div>
-              <Reviews label={false} courseId={course._id} />
+              <Reviews label={false} courseId={course.courseID} />
             </div>
           </div>
         </div>

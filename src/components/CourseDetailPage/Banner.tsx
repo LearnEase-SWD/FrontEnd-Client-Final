@@ -25,20 +25,20 @@ export const Banner = ({
   completed_lesson,
 }: Props) => {
   const dispatch = useDispatch<AppDispatch>();
-  const totalLessons = course.session_list.reduce((sum, session) => {
-    return sum + session.lesson_list.length;
-  }, 0);
+  // const totalLessons = course.session_list.reduce((sum, session) => {
+  //   return sum + session.lesson_list.length;
+  // }, 0);
   const { currentUser } = useSelector((state: RootState) => state.auth.login);
 
-  const completedLessonCount = course.session_list.reduce((sum, session) => {
-    return (
-      sum +
-      session.lesson_list.filter((lesson) =>
-        completed_lesson.includes(lesson._id)
-      ).length
-    );
-  }, 0);
-  const progressPercentage = (completedLessonCount / totalLessons) * 100;
+  // const completedLessonCount = course.session_list.reduce((sum, session) => {
+  //   return (
+  //     sum +
+  //     session.lesson_list.filter((lesson) =>
+  //       completed_lesson.includes(lesson._id)
+  //     ).length
+  //   );
+  // }, 0);
+  // const progressPercentage = (completedLessonCount / totalLessons) * 100;
 
   const navigate = useCustomNavigate();
 
@@ -101,10 +101,10 @@ export const Banner = ({
             {course.category_name}
           </div>
           <div className="font-jost text-5xl font-bold text-gradient">
-            {course.name}
+            {course.title}
           </div>
           <div className="text-lg">{course.description}</div>
-          <div className="text-lg cursor-pointer">
+          {/* <div className="text-lg cursor-pointer">
             Instructor:{" "}
             <span
               className="px-2 underline"
@@ -112,7 +112,7 @@ export const Banner = ({
             >
               {course.instructor_name}
             </span>
-          </div>
+          </div> */}
           {isPurchased ? (
             <div className="flex flex-col lg:flex-row gap-4 w-full">
               <div
@@ -125,63 +125,64 @@ export const Banner = ({
                 <div className="font-light">Already enrolled</div>
                 <div className="flex justify-between items-baseline">
                   <div>Your Progress </div>
-                  <div className="mt-2 text-sm">
+                  {/* <div className="mt-2 text-sm">
                     {completedLessonCount} of {totalLessons} lessons completed (
                     {progressPercentage.toFixed(0)}%)
-                  </div>
+                  </div> */}
                 </div>
                 <div className="bg-gray-200 h-3 w-full rounded">
-                  <div
+                  {/* <div
                     className="bg-orange-400 h-3 rounded"
                     style={{ width: `${progressPercentage}%` }}
-                  ></div>
+                  ></div> */}
                 </div>
               </div>
             </div>
           ) : (
             <div className="flex">
-              {currentUser._id === course.instructor_id ? (
+              {/* {currentUser._id === course.instructor_id ? (
                 <div
                   className="bg-orange-500 text-white text-2xl font-semibold px-8 py-4 rounded cursor-pointer"
                   onClick={() => navigate("/dashboard/instructor/my-courses")}
                 >
                   Edit This Course
                 </div>
-              ) : (
-                <div
-                  className="bg-orange-500 text-white text-2xl font-semibold px-8 py-4 rounded cursor-pointer"
-                  onClick={() => {
-                    if (currentUser.role) {
-                      if (course.is_in_cart) {
-                        navigate(`/cart/new`)
-                      } else {
-                        handleAdd(currentUser.role, course, navigate)
-                      }
+              ) : ( */}
+              <div
+                className="bg-orange-500 text-white text-2xl font-semibold px-8 py-4 rounded cursor-pointer"
+                onClick={() => {
+                  if (currentUser?.role) {
+                    if (course.is_in_cart) {
+                      navigate(`/cart/new`)
                     } else {
-                      navigate("/login")
+                      handleAdd(currentUser.role, course, navigate)
                     }
+                  } else {
+                    navigate("/login")
                   }
                 }
-                >
-                  {course.is_in_cart ?"View in Cart" :"Buy Now"}
-                </div>
-              )}
+                }
+              >
+                {course.is_in_cart ? "View in Cart" : "Buy Now"}
+              </div>
+              {/* )} */}
               <div className="flex flex-col items-start justify-center ml-4">
                 {course.discount && course.discount > 0 ? (
                   <>
                     <div className="text-xl line-through text-gray-500">
-                      US${course.price.toFixed(2)}
+                      {course.price.toLocaleString("vi-VN")}đ
                     </div>
                     <div className="text-2xl font-bold text-orange-500">
-                      US${course.price_paid.toFixed(2)}
+                      {course.price_paid.toLocaleString("vi-VN")}đ
                     </div>
                   </>
                 ) : (
                   <div className="text-2xl font-bold text-orange-500">
-                    ${course.price.toFixed(2)}
+                    {course.price.toLocaleString("vi-VN")}đ
                   </div>
                 )}
               </div>
+
             </div>
           )}
         </div>
@@ -219,7 +220,7 @@ export const Banner = ({
           )}
         </div>
       </div>
-      <div className="relative flex justify-center">
+      {/* <div className="relative flex justify-center">
         <CourseSummary
           time={course.full_time}
           student={course.enrolled}
@@ -227,7 +228,7 @@ export const Banner = ({
           lessons={totalLessons}
           quizzes={0}
         />
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -139,7 +139,7 @@ const Navbar = () => {
   const profileMenu: MenuProps = {
     items: [
       {
-        label: <span className="text-orange-500">{currentUser.name}</span>,
+        label: <span className="text-orange-500">{currentUser?.userName || "Guest"}</span>,
         key: "balance",
       },
       {
@@ -257,7 +257,7 @@ const Navbar = () => {
             )}
             {userLoggedIn ? (
               <Dropdown menu={profileMenu}>
-                {currentUser.avatar_url ?
+                {currentUser?.avatar_url ?
                   <img className="w-8 h-8 obj-cover text-xl rounded-full flex items-center justify-center cursor-pointer" src={currentUser.avatar_url} alt="profile" />
                   :
                   <UserOutlined />
@@ -275,16 +275,7 @@ const Navbar = () => {
                     </a>
                   </div>
                 </div>
-                <div className="border-[1.5px] border-black rounded-3xl">
-                  <div className="pt-1.5 pb-2 pl-3 pr-3">
-                    <a
-                      className="text-base font-medium cursor-pointer"
-                      onClick={() => navigate("/signup")}
-                    >
-                      Sign up
-                    </a>
-                  </div>
-                </div>
+               
               </>
             )}
             {/* <div

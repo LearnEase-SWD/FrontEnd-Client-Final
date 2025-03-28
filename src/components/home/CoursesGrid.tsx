@@ -123,7 +123,7 @@ export default function CoursesGrid({
           md={viewMode === "list" ? 24 : 12}
           lg={viewMode === "list" ? 24 : 12}
           xl={viewMode === "list" ? 24 : 8}
-          key={course._id}
+          key={course.courseID}
         >
           <CourseCard 
             course={course} 

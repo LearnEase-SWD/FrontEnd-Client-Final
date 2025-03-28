@@ -18,7 +18,7 @@ import CategoriesGrid from "../components/home/CategoriesGrid";
 // } from "react-icons/fa";
 import CoursesGrid from "../components/home/CoursesGrid";
 // import CTABanner from "../components/home/CTABanner";
-import LatestArticles from "../components/home/LatestArticles";
+
 import { ProofOfProduct } from "../components/home/ProofOfProduct";
 import Search from "antd/es/input/Search";
 import { BiSolidArrowFromLeft } from "react-icons/bi";
@@ -33,60 +33,6 @@ import { Blog } from "../models/Blog.model";
 import { Category } from "../models/Category.model";
 
 
-
-// const categories: Category[] = [
-//   {
-//     icon: <FaPalette className="text-4xl text-orange-500" />,
-//     title: "Art & Design",
-//     courses: 38,
-//   },
-//   {
-//     icon: <FaCode className="text-4xl text-orange-500" />,
-//     title: "Development",
-//     courses: 38,
-//   },
-//   {
-//     icon: <FaComments className="text-4xl text-orange-500" />,
-//     title: "Communication",
-//     courses: 38,
-//   },
-//   {
-//     icon: <FaVideo className="text-4xl text-orange-500" />,
-//     title: "Videography",
-//     courses: 38,
-//   },
-//   {
-//     icon: <FaCamera className="text-4xl text-orange-500" />,
-//     title: "Photography",
-//     courses: 38,
-//   },
-//   {
-//     icon: <FaChartLine className="text-4xl text-orange-500" />,
-//     title: "Marketing",
-//     courses: 38,
-//   },
-//   {
-//     icon: <FaPenNib className="text-4xl text-orange-500" />,
-//     title: "Content Writing",
-//     courses: 38,
-//   },
-//   {
-//     icon: <FaChartPie className="text-4xl text-orange-500" />,
-//     title: "Finance",
-//     courses: 38,
-//   },
-//   {
-//     icon: <FaAtom className="text-4xl text-orange-500" />,
-//     title: "Science",
-//     courses: 38,
-//   },
-//   {
-//     icon: <FaNetworkWired className="text-4xl text-orange-500" />,
-//     title: "Network",
-//     courses: 38,
-//   },
-// ];
-
 const HomePage = () => {
   const [courses, setCourses] = useState<Course[]>([]);
   const [blogs, setBlogs] = useState<Blog[]>([]);
@@ -94,47 +40,34 @@ const HomePage = () => {
   const [categories, setCategories] = useState<Category[]>([]);
 
   useEffect(() => {
-    const initialCoursesParams: GetCourseClient = {
-      pageInfo: {
-        pageNum: 1,
-        pageSize: 6,
-      },
-      searchCondition: {
-        keyword: "",
-        is_deleted: false,
-        category_id: "",
-      },
-    };
-    const initialBlogsParams: GetBlogsClient = {
-      pageInfo: {
-        pageNum: 1,
-        pageSize: 3,
-      },
-      searchCondition: {
-        keyword: "",
-        is_deleted: false,
-        category_id: "",
-      },
-    };
+    // const initialCoursesParams: GetCourseClient = {
+    //   pageInfo: {
+    //     pageIndex: 1,
+    //     pageSize: 10,
+    //   },
+    //   searchCondition: {
+    //     keyword: "",
+    //     is_deleted: false,
+    //     category_id: "",
+    //   },
+    // };
+
     const fetchCourses = async () => {
-      const response = await ClientService.getCourses(initialCoursesParams);
-      setCourses(response?.data?.pageData ?? []);
+      const response = await ClientService.getCourses();
+      setCourses(response?.data ?? []);
+      console.log(response?.data)
     };
 
     const fetchCategories = async () => {
-      const response = await ClientService.getCategories({...initialCoursesParams, pageInfo: { ...initialCoursesParams.pageInfo, pageSize: 16}});
+      const response = await ClientService.getCategories();
       setCategories(response?.data?.pageData ?? []);
     };
 
-    const fetchBlogs = async () => {
-      const response = await ClientService.getBlogs(initialBlogsParams);
-      setBlogs(response?.data?.pageData ?? []);
-    };
+
 
     fetchCourses(); // Call the async function
-    fetchBlogs()
     fetchCategories()
-    
+
   }, []);
 
   const navigate = useCustomNavigate();
@@ -201,12 +134,12 @@ const HomePage = () => {
           {/* <Button className="rounded-xl bg-[#FF782D] border-none h-[40px] text-md font-semibold text-white">
             <BiSearch /> Find A Course
           </Button> */}
-          <Search
+          {/* <Search
             placeholder="Search for any course..."
             onSearch={(e) => navigate(`course?search=${e}`)}
             enterButton
             className=" w-64 sm:w-96 custom-search"
-          />
+          /> */}
         </section>
 
         <section className="float-animation show">
@@ -217,7 +150,7 @@ const HomePage = () => {
                   <h2 className="text-2xl mb-2 sm:mb-0 lg:text-4xl font-bold text-gray-800">
                     Featured Categories
                   </h2>
-                  <a  href="/course"   onClick={() => navigate("/course")} className="text-orange-600 cursor-pointer underline sm:no-underline sm:text-gray-600">Explore our Popular Categories </a>
+                  <a href="/course" onClick={() => navigate("/course")} className="text-orange-600 cursor-pointer underline sm:no-underline sm:text-gray-600">Explore our Popular Categories </a>
 
                 </div>
                 <Button
@@ -249,7 +182,7 @@ const HomePage = () => {
                   <h2 className="text-2xl mb-2 sm:mb-0 lg:text-4xl font-bold text-gray-800">
                     Featured Courses
                   </h2>
-                  <a  href="/course"   onClick={() => navigate("/course")} className="text-orange-600 cursor-pointer underline sm:no-underline sm:text-gray-600">Explore our Popular Courses </a>
+                  <a href="/course" onClick={() => navigate("/course")} className="text-orange-600 cursor-pointer underline sm:no-underline sm:text-gray-600">Explore our Popular Courses </a>
 
                 </div>
 
@@ -288,13 +221,6 @@ const HomePage = () => {
           <ProofOfProduct />
         </section>
 
-        {/* <section className="float-animation">
-          <CTABanner />
-        </section> */}
-
-        <section className="float-animation">
-          <LatestArticles blogs={blogs} />
-        </section>
       </main>
     </div>
   );
