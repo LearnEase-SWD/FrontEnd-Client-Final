@@ -8,6 +8,7 @@ import { Session } from "../models/Session.model";
 import { DetailModal } from "../components/CourseDetailPage/Modal";
 import DetailSkeleton from "../components/CourseDetailPage/DetailSkeleton";
 import ClientService from "../services/client.service";
+import { Lesson } from "../models/Lesson.model";
 
 const CourseDetailPage = () => {
   // Get the course ID from the URL
@@ -15,15 +16,14 @@ const CourseDetailPage = () => {
   const courseId = id ? id.toString() : "";
   const user = JSON.parse(localStorage.getItem("user") || "{}");
   const [course, setCourse] = useState<Course>();
-  const [session, setSession] = useState<Session | null>();
   const [loading, setLoading] = useState<boolean>(false);
 
   const fetchData = async (courseId: string) => {
     setLoading(true);
     try {
       const response = await ClientService.getCourseDetails(courseId);
+      console.log("API Response:", response.data);
       setCourse(response.data as Course);
-      setSession((response.data as Course).session_list as unknown as Session);
     } catch (error) {
       console.error("Error fetching course details:", error);
     } finally {
@@ -53,7 +53,7 @@ const CourseDetailPage = () => {
         <Detail
           isEnrolled={course.is_purchased}
           course={course || undefined}
-          session={session || undefined}
+
         />
         <div className="lg:w-2/3">
           <LeaveAComment courseId={courseId} />

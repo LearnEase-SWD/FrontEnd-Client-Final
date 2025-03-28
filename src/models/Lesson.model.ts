@@ -1,27 +1,49 @@
 import { LessonSearchCondition, PageInfo } from "./SearchInfo.model";
 
 export interface Lesson {
-  _id: string;
-  name: string;
+  lessonID: string;
+  title: string;
   user_id: string;
-  course_id: string;
+  courseID: string;
   session_id: string;
-  lesson_type: string;
+  lessonType: LessonType;
   description: string;
-  video_url: string;
-  image_url: string;
+  videoLesson: string;
+  theoryLesson: string;
   assignment: string;
   full_time: number;
   position_order: number;
   is_deleted: boolean;
-  created_at: string;
+  createdAt: string;
   updated_at: string;
   user_name: string;
   course_name: string;
   session_name: string;
+  exercises: Exercise[];
+  flashcards: Flashcard[];
   is_completed: boolean;
 }
-
+export interface Exercise {
+  exerciseID: string;
+  lessonID: string;
+  lesson: string;
+  type: string;
+  question: string;
+  answerOptions: string[];
+  correctAnswer: string;
+  createdAt: string;
+  userExercises: [];
+}
+export interface Flashcard {
+  flashcardID: string;
+  lessonID: string;
+  lesson: string;
+  front: string;
+  back: string;
+  pronunciationAudioURL: string;
+  createdAt: string;
+  userFlashcards: [];
+}
 export interface LessonRequest {
   name: string;
   user_id: string;
@@ -47,7 +69,12 @@ export enum LessonTypeEnum {
   IMAGE = "image",
   ASSIGNMENT = "assignment",
 }
-
+export enum LessonType { 
+  Video = 0,
+  Theory = 1,
+  Exercise = 2,
+  Conversation = 3
+}
 
 export enum LevelsEnum {
   BEGINNER = "Beginner",

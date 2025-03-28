@@ -73,6 +73,7 @@ export default function CoursesPage() {
     const response = await ClientService.getCategories();
     setCategories(response?.data ?? []);
   };
+  
   useEffect(() => {
     if (categoryParam) {
       const filteredCourses = allCourses.filter(course => course.topicID === categoryParam);
@@ -80,8 +81,9 @@ export default function CoursesPage() {
       setTotalItems(filteredCourses.length);
       setCurrentPage(1);
       setNoResult(filteredCourses.length === 0);
+      
     }
-  }, [searchParams.get("category"), allCourses]); 
+  }, [searchParams.get("category"), allCourses]);
 
   const paginatedCourses = courses.slice(
     (currentPage - 1) * pageSize,

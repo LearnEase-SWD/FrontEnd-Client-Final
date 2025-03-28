@@ -57,11 +57,10 @@ export const Banner = ({
   };
 
   const handleLearn = (course: Course) => {
-    console.log(course.session_list[0].lesson_list[0]);
-    sessionStorage.setItem("sessionIndex", "0");
+    console.log(course.lessons[0]);
     sessionStorage.setItem(
       "lessonIndex",
-      JSON.stringify(course.session_list[0].lesson_list[0])
+      JSON.stringify(course.lessons[0])
     );
     navigate(`/learn/${id}`);
   };
@@ -97,10 +96,10 @@ export const Banner = ({
               {course.name}
             </div>
           </div>
-          <div className="hidden lg:block bg-orange-500 text-white font-bold px-4 py-2 rounded-lg">
-            {course.name}
+          <div className="hidden lg:block bg-orange-500 text-white font-bold px-3 py-2 rounded-lg">
+            {course.topicName}
           </div>
-          <div className="font-jost text-5xl font-bold text-gradient">
+          <div className="font-jost text-4xl font-bold text-gradient">
             {course.title}
           </div>
           <div className="text-lg">{course.description}</div>
@@ -116,7 +115,7 @@ export const Banner = ({
           {isPurchased ? (
             <div className="flex flex-col lg:flex-row gap-4 w-full">
               <div
-                className="bg-orange-500 text-white text-2xl font-semibold px-8 py-4 rounded cursor-pointer text-center"
+                className="bg-orange-500 text-white text-xl font-semibold px-6 py-3 rounded cursor-pointer text-center"
                 onClick={() => handleLearn(course)}
               >
                 Learn Now
@@ -149,7 +148,7 @@ export const Banner = ({
                 </div>
               ) : ( */}
               <div
-                className="bg-orange-500 text-white text-2xl font-semibold px-8 py-4 rounded cursor-pointer"
+                className="bg-orange-500 text-white text-xl font-semibold px-6 py-3 rounded cursor-pointer"
                 onClick={() => {
                   if (currentUser?.role) {
                     if (course.is_in_cart) {

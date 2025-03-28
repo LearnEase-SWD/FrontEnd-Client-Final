@@ -48,7 +48,7 @@ export const DetailModal = ({ course, isPurchased }: Props) => {
         >
           <div className="relative h-[20vh] bg-orange-200 rounded-t-lg">
             <div className="absolute bg-orange-500 text-white m-4 px-2 py-1 rounded">
-              {course.category_name}
+              {course.topicName}
             </div>
             <img
               src={course.image_url}
@@ -60,9 +60,6 @@ export const DetailModal = ({ course, isPurchased }: Props) => {
             <h2 className="text-xl font-semibold mb-4 text-gradient">
               {course.name}
             </h2>
-            <p>
-              <strong>Instructor:</strong> {course.instructor_name}
-            </p>
             <p className="flex flex-col">
               <strong>Overview:</strong>{" "}
               <span className="h-[25vh] overflow-y-scroll">
@@ -81,15 +78,15 @@ export const DetailModal = ({ course, isPurchased }: Props) => {
                 {course.discount ? (
                   <div className="flex gap-2 items-baseline">
                     <div className="text-xl font-bold text-orange-500 pt-2">
-                      US${course.price_paid.toFixed(2)}
+                    {course.price_paid.toLocaleString("vi-VN")}đ
                     </div>
                     <div className="text-sm line-through">
-                      US${course.price.toFixed(2)}
+                    {course.price.toLocaleString("vi-VN")}đ
                     </div>
                   </div>
                 ) : (
                   <div className="text-xl font-bold text-orange-500 pt-2">
-                    US${course.price.toFixed(2)}
+                      {course.price.toLocaleString("vi-VN")}đ
                   </div>
                 )}
                 <div>

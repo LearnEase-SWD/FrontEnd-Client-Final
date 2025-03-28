@@ -1,3 +1,4 @@
+import { Lesson } from "./Lesson.model";
 import {
   CourseLogSearchCondition,
   PageInfo,
@@ -8,6 +9,7 @@ import { Session } from "./Session.model";
 export interface Course {
   courseID: string;
   topicID: string;
+  topicName: string;
   title: string;
   description: string;
   content: string; // Assuming content is HTML string
@@ -25,7 +27,7 @@ export interface Course {
   user_name: string;
   name: string;
   totalLessons: number;
-  session_list: Session[];
+  lessons: Lesson[];
   is_in_cart: boolean;
   is_purchased: boolean;
   average_rating: number;

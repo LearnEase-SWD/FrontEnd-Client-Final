@@ -64,12 +64,12 @@ const CourseCard: React.FC<{
                 alt={course.title}
                 src={course.image_url}
                 className={`${viewMode === "list"
-                    ? "min-w-[200px]  w-[200px] md:min-w-[250px] md:w-[250px]"
-                    : "w-full"
+                  ? "min-w-[200px]  w-[200px] md:min-w-[250px] md:w-[250px]"
+                  : "w-full"
                   } h-40 sm:h-56 object-cover`}
               />
               <Tag className="absolute top-2 left-2 bg-black text-white">
-                {course.category_name}
+                {course.topicName}
               </Tag>
             </div>
           }
