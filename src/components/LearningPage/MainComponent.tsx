@@ -9,7 +9,6 @@ interface MainContentProps {
   handleClick: (lesson: Lesson) => void;
   loading: boolean;
   buttonText: string;
-  lessons: Lesson[];
 }
 
 const MainContent: React.FC<MainContentProps> = ({
@@ -18,7 +17,7 @@ const MainContent: React.FC<MainContentProps> = ({
   handleClick,
   loading,
   buttonText,
-  lessons
+  
 }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   useEffect(() => {

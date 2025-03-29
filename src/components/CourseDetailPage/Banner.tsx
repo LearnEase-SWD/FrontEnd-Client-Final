@@ -123,42 +123,18 @@ export const Banner = ({
               {course.instructor_name}
             </span>
           </div> */}
-          {/* {isPurchased ? ( */}
-          <div className="flex flex-col lg:flex-row gap-4 w-full">
-            <div
-              className="bg-orange-500 text-white text-xl font-semibold px-6 py-3 rounded cursor-pointer text-center"
-              onClick={() => handleLearn()}
-            >
-              Learn Now
-            </div>
-            <div className="flex-grow">
-              <div className="font-light">Already enrolled</div>
-              <div className="flex justify-between items-baseline">
-                <div>Your Progress </div>
-                {/* <div className="mt-2 text-sm">
-                    {completedLessonCount} of {totalLessons} lessons completed (
-                    {progressPercentage.toFixed(0)}%)
-                  </div> */}
-              </div>
-              <div className="bg-gray-200 h-3 w-full rounded">
-                {/* <div
-                    className="bg-orange-400 h-3 rounded"
-                    style={{ width: `${progressPercentage}%` }}
-                  ></div> */}
+          {isPurchased ? (
+            <div className="flex flex-col lg:flex-row gap-4 w-full">
+              <div
+                className="bg-orange-500 text-white text-xl font-semibold px-6 py-3 rounded cursor-pointer text-center"
+                onClick={() => handleLearn()}
+              >
+                Learn Now
               </div>
             </div>
-          </div>
-          {/* ) : ( */}
-          <div className="flex">
-            {/* {currentUser._id === course.instructor_id ? (
-                <div
-                  className="bg-orange-500 text-white text-2xl font-semibold px-8 py-4 rounded cursor-pointer"
-                  onClick={() => navigate("/dashboard/instructor/my-courses")}
-                >
-                  Edit This Course
-                </div>
-              ) : ( */}
-            {/* <div
+          ) : (
+            <div className="flex">
+              <div
                 className="bg-orange-500 text-white text-xl font-semibold px-6 py-3 rounded cursor-pointer"
                 onClick={() => {
                   if (currentUser?.role) {
@@ -174,27 +150,27 @@ export const Banner = ({
                 }
               >
                 {course.is_in_cart ? "View in Cart" : "Buy Now"}
-              </div> */}
-            {/* )} */}
-            <div className="flex flex-col items-start justify-center ml-4">
-              {course.discount && course.discount > 0 ? (
-                <>
-                  <div className="text-xl line-through text-gray-500">
+              </div>
+
+              <div className="flex flex-col items-start justify-center ml-4">
+                {course.discount && course.discount > 0 ? (
+                  <>
+                    <div className="text-xl line-through text-gray-500">
+                      {course.price.toLocaleString("vi-VN")}đ
+                    </div>
+                    <div className="text-2xl font-bold text-orange-500">
+                      {course.price_paid.toLocaleString("vi-VN")}đ
+                    </div>
+                  </>
+                ) : (
+                  <div className="text-2xl font-bold text-orange-500">
                     {course.price.toLocaleString("vi-VN")}đ
                   </div>
-                  <div className="text-2xl font-bold text-orange-500">
-                    {course.price_paid.toLocaleString("vi-VN")}đ
-                  </div>
-                </>
-              ) : (
-                <div className="text-2xl font-bold text-orange-500">
-                  {course.price.toLocaleString("vi-VN")}đ
-                </div>
-              )}
-            </div>
+                )}
+              </div>
 
-          </div>
-          {/* )} */}
+            </div>
+          )}
         </div>
         <div className="hidden lg:w-1/3 lg:block relative">
           <div className="absolute inset-0" onClick={() => handlePreview()}>
