@@ -4,7 +4,7 @@ import handleError, { ErrorResponse } from "./error";
 // Tạo instance của axios
 export const axiosClientVer2 = axios.create({
   baseURL: "http://localhost:5121/api/",
-  timeout: 600000, // Request timeout
+  timeout: 600000, // 10-minute timeout
   headers: {
     "Content-Type": "application/json",
   },
@@ -27,6 +27,7 @@ axiosClientVer2.interceptors.request.use(
 
 // Response Interceptor
 axiosClientVer2.interceptors.response.use(
+  (response: AxiosResponse) => response,
   (response: AxiosResponse) => response,
   (error: AxiosError) => {
     handleError(error);
