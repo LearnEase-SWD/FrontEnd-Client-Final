@@ -18,7 +18,7 @@ const LearnCoursePage = () => {
   const [buttonText, setButtonText] = useState("Mark as Completed");
   const [loading, setLoading] = useState(false);
   const [sidebarWidth, setSidebarWidth] = useState("33%");
-  const [lessions, setLessions] = useState<Lesson[]>([]);
+  const [lessons, setLessons] = useState<Lesson[]>([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -26,7 +26,7 @@ const LearnCoursePage = () => {
       setLoading(true);
       try {
         const response = await LessonService.getLessonByCourseId(courseId);
-        setLessions(response?.data ?? []);
+        setLessons(response?.data ?? []);
       } catch (error) {
         console.error("Error fetching course details:", error);
       } finally {
@@ -40,10 +40,10 @@ const LearnCoursePage = () => {
   const [selectedLesson, setSelectedLesson] = useState<Lesson | null>(null);
 
   useEffect(() => {
-    if (lessions.length) {
-      setSelectedLesson(lessions[0]);
+    if (lessons.length) {
+      setSelectedLesson(lessons[0]);
     }
-  }, [lessions]);
+  }, [lessons]);
 
   const selectLesson = (lesson: Lesson) => {
     setSelectedLesson(lesson);
@@ -51,13 +51,13 @@ const LearnCoursePage = () => {
   };
 
   const handleClick = async () => {
-    if (!selectedLesson || !lessions) return;
+    if (!selectedLesson || !lessons) return;
 
     if (buttonText === "Go To Next Item") {
-      const currentLessonIndex = lessions.findIndex((l) => l.lessonID === selectedLesson.lessonID);
+      const currentLessonIndex = lessons.findIndex((l) => l.lessonID === selectedLesson.lessonID);
 
-      if (currentLessonIndex !== -1 && currentLessonIndex < lessions.length - 1) {
-        selectLesson(lessions[currentLessonIndex + 1]);
+      if (currentLessonIndex !== -1 && currentLessonIndex < lessons.length - 1) {
+        selectLesson(lessons[currentLessonIndex + 1]);
       } else {
         setButtonText("Completed");
       }
@@ -97,7 +97,7 @@ const LearnCoursePage = () => {
     document.removeEventListener("mouseup", handleMouseUp);
   };
 
-  if (!lessions) {
+  if (!lessons) {
     return <Skeleton />;
   }
 
@@ -110,7 +110,7 @@ const LearnCoursePage = () => {
         <div className="lg:block hidden" style={{ width: sidebarWidth }}>
           <Sidebar
             sidebarWidth="100%"
-            lessons={lessions}
+            lessons={lessons}
             selectedLesson={selectedLesson}
             selectLesson={selectLesson}
           />
@@ -127,6 +127,7 @@ const LearnCoursePage = () => {
           handleClick={handleClick}
           loading={loading}
           buttonText={buttonText}
+          lessons={lessons}
         />
       </div>
     </div>

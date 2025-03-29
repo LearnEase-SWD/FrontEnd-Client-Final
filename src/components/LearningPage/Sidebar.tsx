@@ -27,6 +27,7 @@ const Sidebar: React.FC<SidebarProps> = ({
     const storedLesson = sessionStorage.getItem("lessonIndex");
     if (storedLesson) {
       selectLesson(JSON.parse(storedLesson));
+      console.log("Lessons  ", storedLesson);
     }
   }, []);
   console.log("Lessons in Sidebar: ", lessons);
