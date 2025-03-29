@@ -1,6 +1,7 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ReactPlayer from "react-player";
-import { Lesson } from "../../models/Lesson.model";
+import { Lesson, LessonType } from "../../models/Lesson.model";
+import LessonService from "../../services/lesson.service";
 
 interface MainContentProps {
   remainingWidth: string;
@@ -8,6 +9,7 @@ interface MainContentProps {
   handleClick: (lesson: Lesson) => void;
   loading: boolean;
   buttonText: string;
+  lessons: Lesson[];
 }
 
 const MainContent: React.FC<MainContentProps> = ({
@@ -16,6 +18,7 @@ const MainContent: React.FC<MainContentProps> = ({
   handleClick,
   loading,
   buttonText,
+  lessons
 }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -23,6 +26,8 @@ const MainContent: React.FC<MainContentProps> = ({
       scrollRef.current.scrollTop = 0;
     }
   }, [selectedLesson]);
+  console.log("check:", selectedLesson);
+
 
   return (
     <div
@@ -32,27 +37,35 @@ const MainContent: React.FC<MainContentProps> = ({
     >
       {selectedLesson && (
         <div className="mt-4 p-4 rounded">
-          <h2 className="text-xl font-bold">{selectedLesson.title}</h2>
+          <h2 className="text-2xl font-bold">{selectedLesson.title}</h2>
           <div className="pt-2 rounded">
-            {selectedLesson.lessonType === 0 ? (
+            {selectedLesson?.lessonType === LessonType.Video && selectedLesson?.videoLessons?.length ? (
               <div className="w-full max-h-[70vh]">
-                <ReactPlayer
-                  url={selectedLesson.video_url}
-                  controls
-                />
+                <ReactPlayer url={selectedLesson.videoLessons[0].videoURL} controls />
               </div>
-            ) : selectedLesson.lessonType === 1 ? (
+            ) : selectedLesson?.lessonType === LessonType.Video ? (
+              <p className="text-red-500">No video available</p>
+            ) : selectedLesson?.lessonType === LessonType.Theory ? (
               <div className="w-full">
-                <div><img src={selectedLesson.image_url} alt="Image" /></div>
+                <div>
+                  <h3 className="text-xl ">
+                    {selectedLesson?.theoryLessons[0].content || "No theory available"}
+                  </h3>
+                  <p className="text-gray-500 text-sm">
+                    {selectedLesson?.theoryLessons[0].examples || "No description available"}
+                  </p>
+                </div>
               </div>
             ) : (
               <div
                 className="w-full"
                 dangerouslySetInnerHTML={{
-                  __html: selectedLesson.description,
+                  __html: selectedLesson?.description || "<p>No content available</p>",
                 }}
               />
             )}
+
+
           </div>
           <div className="flex items-baseline gap-4">
             <button
@@ -70,7 +83,9 @@ const MainContent: React.FC<MainContentProps> = ({
           </div>
         </div>
       )}
+
     </div>
+
   );
 };
 

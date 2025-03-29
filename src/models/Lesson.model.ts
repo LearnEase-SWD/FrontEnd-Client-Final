@@ -8,8 +8,8 @@ export interface Lesson {
   session_id: string;
   lessonType: LessonType;
   description: string;
-  videoLesson: string;
-  theoryLesson: string;
+  videoLessons: VIDEOLESSON[];
+  theoryLessons: THEORYLESSON[];
   assignment: string;
   full_time: number;
   position_order: number;
@@ -22,6 +22,20 @@ export interface Lesson {
   exercises: Exercise[];
   flashcards: Flashcard[];
   is_completed: boolean;
+}
+export interface THEORYLESSON {
+  theoryID: string;
+  lessonID: string;
+  content: string;
+  examples: string;
+  createdAt: string;
+}
+export interface VIDEOLESSON {
+  videoID: string;
+  lessonID: string;
+  videoURL: string;
+  createdAt: string;
+  duration: string;
 }
 export interface Exercise {
   exerciseID: string;
@@ -69,7 +83,7 @@ export enum LessonTypeEnum {
   IMAGE = "image",
   ASSIGNMENT = "assignment",
 }
-export enum LessonType { 
+export enum LessonType {
   Video = 0,
   Theory = 1,
   Exercise = 2,

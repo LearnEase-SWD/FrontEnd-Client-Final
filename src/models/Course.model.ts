@@ -8,14 +8,14 @@ import { Session } from "./Session.model";
 
 export interface Course {
   courseID: string;
-  topicID: string;
+  topicId: string;
   topicName: string;
   title: string;
   description: string;
   content: string; // Assuming content is HTML string
   status: string;
   video_url?: string; // Optional video URL
-  image_url: string;
+  url: string;
   tag: string[];
   level: string;
   enrolled: number;
