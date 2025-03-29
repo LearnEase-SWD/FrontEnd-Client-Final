@@ -94,6 +94,7 @@ const Navbar = () => {
   }, [location.pathname]);
 
   const handleLogout = () => {
+    localStorage.removeItem("userEmail");
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     window.location.reload();
@@ -176,6 +177,7 @@ const Navbar = () => {
         label: <span className="text-red-500">Logout</span>,
         key: "logout",
         onClick: () => {
+          localStorage.removeItem("userEmail");
           localStorage.removeItem("token");
           localStorage.removeItem("user");
           window.location.reload();

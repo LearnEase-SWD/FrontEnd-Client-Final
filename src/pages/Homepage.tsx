@@ -38,6 +38,8 @@ const HomePage = () => {
   const [blogs, setBlogs] = useState<Blog[]>([]);
 
   const [categories, setCategories] = useState<Category[]>([]);
+  const dispatch = useDispatch<AppDispatch>();
+  const { currentUser } = useSelector((state: RootState) => state.auth.login);
 
   useEffect(() => {
     // const initialCoursesParams: GetCourseClient = {
@@ -86,9 +88,7 @@ const HomePage = () => {
     });
   });
 
-  const { currentUser } = useSelector((state: RootState) => state.auth.login);
-
-  const dispatch = useDispatch<AppDispatch>();
+ 
 
   const onAddCart = async (course: Course) => {
     await dispatch(addToCart({ course, userRole: currentUser?.role, navigate }));

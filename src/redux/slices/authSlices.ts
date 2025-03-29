@@ -102,7 +102,9 @@ export const authSlice = createSlice({
     logout: (state) => {
       state.login.currentUser = {} as User;
       state.login.token = null;
+      localStorage.removeItem("userEmail");
       localStorage.removeItem("token");
+      
     },
     verifyTokenPending: (state) => {
       state.verifyToken.loading = true;
