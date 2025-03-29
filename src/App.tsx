@@ -37,6 +37,7 @@ import VerifySuccessToken from "./pages/AuthPage/VerifyToken";
 import { gapi } from "gapi-script";
 import MessagePage from "./pages/Message";
 import CallbackPage from "./pages/CallbackPage";
+import CheckoutPage from "./pages/checkout/CheckoutPage";
 
 // import MessageLayout from "./components/Message/MessageLayout";
 // import MessageDetailPage from "./components/Message/MessageDetailPage";
@@ -101,10 +102,16 @@ function App() {
             </Route>
 
 
-
-
-
-            {/* Student Layout */}
+            <Route
+              path="/checkout"
+              element={
+                <CheckoutPage
+                  carts={[]}
+                  cancelCart={() => {}}
+                  checkout={() => {}}
+                />
+              }
+            />
 
             <Route
               path="dashboard/student"
