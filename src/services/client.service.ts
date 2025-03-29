@@ -5,6 +5,7 @@ import { Category } from "../models/Category.model"
 import { GetBlogsClient, GetCategoriesClient, GetCourseClient } from "../models/Client.model"
 import { Course } from "../models/Course.model"
 import { getRequest, postRequest } from "./httpsMethod"
+import axios from "axios";
 
 const ClientService = {
     getCourses(): Promise<ApiResponse> {
@@ -22,11 +23,11 @@ const ClientService = {
     // getBlogDetail(blogId: string):  Promise<ApiResponse<Blog>> {
     //     return getRequest(CLIENT_API.BLOG_DETAILS(blogId),false)
     // },
-    
-    
-
-
+    purchaseCourse: async (courseId: string, userId: string) => {
+        return await axios.post(`/api/courses/${courseId}/purchase`, null, {
+            params: { userid: userId },
+        });
+    },
 }
-     
 
 export default ClientService

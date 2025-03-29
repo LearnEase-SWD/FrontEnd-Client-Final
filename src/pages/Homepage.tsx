@@ -1,122 +1,74 @@
+import { useEffect, useState } from "react";
 import { useCustomNavigate } from "../hooks/customNavigate";
 import { Button } from "antd";
 import heroImage from "../assets/pexels-kseniachernaya-7301126.jpg";
-// import { BiSearch } from "react-icons/bi";
 import CategoriesGrid from "../components/home/CategoriesGrid";
-
-// import {
-//   FaPalette,
-//   FaCode,
-//   FaComments,
-//   FaVideo,
-//   FaCamera,
-//   FaChartLine,
-//   FaPenNib,
-//   FaChartPie,
-//   FaAtom,
-//   FaNetworkWired,
-// } from "react-icons/fa";
 import CoursesGrid from "../components/home/CoursesGrid";
-// import CTABanner from "../components/home/CTABanner";
-
 import { ProofOfProduct } from "../components/home/ProofOfProduct";
-import Search from "antd/es/input/Search";
-import { BiSolidArrowFromLeft } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../redux/store/store";
-import { Course } from "../models/Course.model";
-import ClientService from "../services/client.service";
-import { GetBlogsClient, GetCourseClient } from "../models/Client.model";
-import { useEffect, useState } from "react";
 import { addToCart } from "../redux/slices/cartSlice";
+import ClientService from "../services/client.service";
+import { Course } from "../models/Course.model";
 import { Blog } from "../models/Blog.model";
 import { Category } from "../models/Category.model";
-
 
 const HomePage = () => {
   const [courses, setCourses] = useState<Course[]>([]);
   const [blogs, setBlogs] = useState<Blog[]>([]);
-
   const [categories, setCategories] = useState<Category[]>([]);
 
-  useEffect(() => {
-    // const initialCoursesParams: GetCourseClient = {
-    //   pageInfo: {
-    //     pageIndex: 1,
-    //     pageSize: 10,
-    //   },
-    //   searchCondition: {
-    //     keyword: "",
-    //     is_deleted: false,
-    //     category_id: "",
-    //   },
-    // };
+  const navigate = useCustomNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+  const { currentUser } = useSelector((state: RootState) => state.auth.login);
 
+  useEffect(() => {
     const fetchCourses = async () => {
       const response = await ClientService.getCourses();
       setCourses(response?.data ?? []);
-      console.log(response?.data)
     };
 
     const fetchCategories = async () => {
       const response = await ClientService.getCategories();
       setCategories(response?.data ?? []);
-      console.log(response?.data)
     };
 
-
-
-    fetchCourses(); // Call the async function
-    fetchCategories()
-
+    fetchCourses();
+    fetchCategories();
   }, []);
 
-  const navigate = useCustomNavigate();
+  useEffect(() => {
+    // Parse query parameters from the URL
+    const params = new URLSearchParams(window.location.search);
+    const courseId = params.get("vnp_OrderInfo")?.split("/")[1]; // Extract courseId from vnp_OrderInfo
+    const userId = localStorage.getItem("userId") || params.get("vnp_OrderInfo")?.split("/")[0]; // Extract userId or get from localStorage
 
-  window.addEventListener("scroll", function () {
-    const floatElements = document.querySelectorAll(".float-animation");
+    if (courseId && userId) {
+      // Call the PurchaseCourse method
+      const purchaseCourse = async () => {
+        try {
+          const response = await ClientService.purchaseCourse(courseId, userId);
+          if (response?.status === 200) {
+            console.log("Course purchased successfully:", response.data);
+          } else {
+            console.error("Failed to purchase course:", response);
+          }
+        } catch (error) {
+          console.error("Error purchasing course:", error);
+        }
+      };
 
-    floatElements.forEach((el) => {
-      const position = el.getBoundingClientRect().top;
-      const windowHeight = window.innerHeight;
-
-      if (position < windowHeight) {
-        el.classList.add("show");
-      }
-    });
-  });
-
-  const { currentUser } = useSelector((state: RootState) => state.auth.login);
-
-  const dispatch = useDispatch<AppDispatch>();
+      purchaseCourse();
+    }
+  }, []);
 
   const onAddCart = async (course: Course) => {
     await dispatch(addToCart({ course, userRole: currentUser?.role, navigate }));
-    return true
+    return true;
   };
 
   return (
     <div className="flex flex-col items-center">
-      {/* <div className="flex flex-col md:flex-row gap-4">
-        <button
-          className="px-4 py-2 bg-yellow-500 text-white rounded-md w-full md:w-auto"
-          onClick={() => navigate("/admin/dashboard")}
-        >
-          Admin Dashboard
-        </button>
-        <button
-          className="px-4 py-2 bg-green-500 text-white rounded-md w-full md:w-auto"
-          onClick={() => navigate("/instructor/dashboard")}
-        >
-          Instructor Dashboard
-        </button>
-        <button
-          className="px-4 py-2 bg-purple-500 text-white rounded-md w-full md:w-auto"
-          onClick={() => navigate("/student/dashboard")}
-        >
-          Student Dashboard
-        </button>
-      </div> */}
       <main className="w-full text-left overflow-visible font-jost ">
         <section className="relative lg:h-[400px] font-jost h-[300px] w-[115vw] -ml-[10vw] lg:-ml-[15vw] flex justify-center items-center flex-col space-y-4 shadow-2xl shadow-orange-300  bg-black overflow-y-hidden">
           <img
@@ -132,15 +84,6 @@ const HomePage = () => {
             "All the courses you need, all in one place." Get started today to
             unlock your hidden potential!
           </div>
-          {/* <Button className="rounded-xl bg-[#FF782D] border-none h-[40px] text-md font-semibold text-white">
-            <BiSearch /> Find A Course
-          </Button> */}
-          {/* <Search
-            placeholder="Search for any course..."
-            onSearch={(e) => navigate(`course?search=${e}`)}
-            enterButton
-            className=" w-64 sm:w-96 custom-search"
-          /> */}
         </section>
 
         <section className="float-animation show">
@@ -151,8 +94,13 @@ const HomePage = () => {
                   <h2 className="text-2xl mb-2 sm:mb-0 lg:text-4xl font-bold text-gray-800">
                     Featured Topics
                   </h2>
-                  <a href="/course" onClick={() => navigate("/course")} className="text-orange-600 cursor-pointer underline sm:no-underline sm:text-gray-600">Explore our Popular Topics </a>
-
+                  <a
+                    href="/course"
+                    onClick={() => navigate("/course")}
+                    className="text-orange-600 cursor-pointer underline sm:no-underline sm:text-gray-600"
+                  >
+                    Explore our Popular Topics{" "}
+                  </a>
                 </div>
                 <Button
                   type="default"
@@ -164,14 +112,10 @@ const HomePage = () => {
                   onClick={() => navigate("/course")}
                 >
                   All Courses{" "}
-                  <BiSolidArrowFromLeft className="group-hover:scale-150 transition " />
                 </Button>
               </div>
               <CategoriesGrid categories={categories} />
             </div>
-            <p className="text-gray-600 mt-12 sm:text-2xl mx-auto text-center w-full italic font-semibold ">
-              ...and many more to come!
-            </p>
           </div>
         </section>
 
@@ -183,8 +127,13 @@ const HomePage = () => {
                   <h2 className="text-2xl mb-2 sm:mb-0 lg:text-4xl font-bold text-gray-800">
                     Featured Courses
                   </h2>
-                  <a href="/course" onClick={() => navigate("/course")} className="text-orange-600 cursor-pointer underline sm:no-underline sm:text-gray-600">Explore our Popular Courses </a>
-
+                  <a
+                    href="/course"
+                    onClick={() => navigate("/course")}
+                    className="text-orange-600 cursor-pointer underline sm:no-underline sm:text-gray-600"
+                  >
+                    Explore our Popular Courses{" "}
+                  </a>
                 </div>
 
                 <Button
@@ -197,7 +146,6 @@ const HomePage = () => {
                   }}
                 >
                   All Courses{" "}
-                  <BiSolidArrowFromLeft className="group-hover:scale-150 transition " />
                 </Button>
               </div>
               <CoursesGrid
@@ -221,7 +169,6 @@ const HomePage = () => {
           </div>
           <ProofOfProduct />
         </section>
-
       </main>
     </div>
   );
