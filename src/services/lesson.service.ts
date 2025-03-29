@@ -18,6 +18,9 @@ const LessonService = {
     getLesson(lessonId: string): Promise<ApiResponse> {
         return getRequest(LESSON_API.GET_LESSON(lessonId));
     },
+    getLessonByCourseId(courseId: string): Promise<ApiResponse> {
+        return getRequest(LESSON_API.GET_LESSONBYCOURSEID(courseId));
+    }
 
     // // Update a Lesson by ID
     // updateLesson(lessonId: string, params: LessonRequest): Promise<ApiResponse<Lesson>> {
@@ -29,7 +32,7 @@ const LessonService = {
     //     return deleteRequest(LESSON_API.DELETE_LESSON(lessonId));
     // }
 
-    
+
 };
 
 export default LessonService;

@@ -8,7 +8,7 @@ export interface Lesson {
   session_id: string;
   lessonType: LessonType;
   description: string;
-  videoLesson: string;
+  videoLesson: VIDEOLESSON[];
   theoryLesson: string;
   assignment: string;
   full_time: number;
@@ -22,6 +22,13 @@ export interface Lesson {
   exercises: Exercise[];
   flashcards: Flashcard[];
   is_completed: boolean;
+}
+export interface VIDEOLESSON {
+  videoID: string;
+  lessonID: string;
+  videoURL: string;
+  createdAt: string;
+  duration: string;
 }
 export interface Exercise {
   exerciseID: string;

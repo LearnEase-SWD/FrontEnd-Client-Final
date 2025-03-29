@@ -1,6 +1,7 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ReactPlayer from "react-player";
-import { Lesson } from "../../models/Lesson.model";
+import { Lesson, LessonType } from "../../models/Lesson.model";
+import LessonService from "../../services/lesson.service";
 
 interface MainContentProps {
   remainingWidth: string;
@@ -23,7 +24,9 @@ const MainContent: React.FC<MainContentProps> = ({
       scrollRef.current.scrollTop = 0;
     }
   }, [selectedLesson]);
+  console.log("check:", selectedLesson);
 
+  
   return (
     <div
       ref={scrollRef}
@@ -34,25 +37,24 @@ const MainContent: React.FC<MainContentProps> = ({
         <div className="mt-4 p-4 rounded">
           <h2 className="text-xl font-bold">{selectedLesson.title}</h2>
           <div className="pt-2 rounded">
-            {selectedLesson.lessonType === 0 ? (
+            {selectedLesson?.lessonType === LessonType.Video && Array.isArray(selectedLesson.videoLesson) && selectedLesson.videoLesson.length > 0 ? (
               <div className="w-full max-h-[70vh]">
-                <ReactPlayer
-                  url={selectedLesson.video_url}
-                  controls
-                />
+                <ReactPlayer url={selectedLesson.videoLesson[0].videoURL} controls />
+
               </div>
-            ) : selectedLesson.lessonType === 1 ? (
+            ) : selectedLesson?.lessonType === LessonType.Theory ? (
               <div className="w-full">
-                <div><img src={selectedLesson.image_url} alt="Image" /></div>
+                <div><img src={selectedLesson?.image_url} alt="Image" /></div>
               </div>
             ) : (
               <div
                 className="w-full"
                 dangerouslySetInnerHTML={{
-                  __html: selectedLesson.description,
+                  __html: selectedLesson?.description || "",
                 }}
               />
             )}
+
           </div>
           <div className="flex items-baseline gap-4">
             <button
@@ -70,7 +72,9 @@ const MainContent: React.FC<MainContentProps> = ({
           </div>
         </div>
       )}
+
     </div>
+
   );
 };
 

@@ -62,7 +62,7 @@ const CourseCard: React.FC<{
             <div className="relative">
               <img
                 alt={course.title}
-                src={course.image_url}
+                src={course.url}
                 className={`${viewMode === "list"
                   ? "min-w-[200px]  w-[200px] md:min-w-[250px] md:w-[250px]"
                   : "w-full"

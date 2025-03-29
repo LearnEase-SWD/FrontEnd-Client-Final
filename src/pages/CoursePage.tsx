@@ -51,15 +51,15 @@ export default function CoursesPage() {
 
 
 
-  const handleFilterChange = (topicID: string) => {
+  const handleFilterChange = (topicId: string) => {
     setSearchParams((prevParams) => {
-      prevParams.set("category", topicID);
+      prevParams.set("category", topicId);
       return prevParams;
     });
 
     // Lọc khóa học theo category_id
-    const filteredCourses = topicID
-      ? allCourses.filter(course => course.topicID === topicID)
+    const filteredCourses = topicId
+      ? allCourses.filter(course => course.topicId === topicId)
       : allCourses; // Nếu bỏ lọc, hiển thị tất cả
 
     setCourses(filteredCourses);
@@ -73,15 +73,15 @@ export default function CoursesPage() {
     const response = await ClientService.getCategories();
     setCategories(response?.data ?? []);
   };
-  
+
   useEffect(() => {
     if (categoryParam) {
-      const filteredCourses = allCourses.filter(course => course.topicID === categoryParam);
+      const filteredCourses = allCourses.filter(course => course.topicId === categoryParam);
       setCourses(filteredCourses);
       setTotalItems(filteredCourses.length);
       setCurrentPage(1);
       setNoResult(filteredCourses.length === 0);
-      
+
     }
   }, [searchParams.get("category"), allCourses]);
 
@@ -128,7 +128,7 @@ export default function CoursesPage() {
             {
               title: "Search Categories",
               options: categories.map((cat) => ({
-                value: cat.topicID,
+                value: cat.topicId,
                 label: cat.name,
               })),
             },

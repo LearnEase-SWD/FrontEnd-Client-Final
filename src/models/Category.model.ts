@@ -1,7 +1,7 @@
 import { PageInfo, SearchCondition } from "./SearchInfo.model";
 
 export type Category = {
-  topicID: string;
+  topicId: string;
   name: string;
   description: string;
   parent_category_id: string;

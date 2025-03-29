@@ -2,7 +2,7 @@ import { FaPlay } from "react-icons/fa";
 import { useCustomNavigate } from "../../hooks/customNavigate";
 import { Course } from "../../models/Course.model";
 import { CourseSummary } from "./CourseSummary";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store/store";
 import { addToCart } from "../../redux/slices/cartSlice";
@@ -10,6 +10,8 @@ import {
   hideLoadingOverlay,
   showLoadingOverlay,
 } from "../../utils/loadingOverlay";
+import LessonService from "../../services/lesson.service";
+import { Lesson } from "../../models/Lesson.model";
 
 type Props = {
   course: Course;
@@ -39,7 +41,18 @@ export const Banner = ({
   // const progressPercentage = (completedLessonCount / totalLessons) * 100;
 
   const navigate = useCustomNavigate();
+  const [lessions, setLessions] = useState<Lesson[]>([]);
+  useEffect(() => {
 
+    const fetchLessons = async () => {
+      const response = await LessonService.getLessonByCourseId(id);
+      setLessions(response?.data ?? []);
+      console.log(response?.data)
+    };
+
+    fetchLessons()
+
+  }, []);
   const handleAdd = async (
     userRole: string,
     course: Course,
@@ -54,11 +67,11 @@ export const Banner = ({
     }
   };
 
-  const handleLearn = (course: Course) => {
-    console.log("First lesson: ", course.lessons[0]);
+  const handleLearn = () => {
+    console.log("First lesson: ", lessions);
     sessionStorage.setItem(
       "lessonIndex",
-      JSON.stringify(course.lessons[0])
+      JSON.stringify(lessions)
     );
     navigate(`/learn/${id}`);
   };
@@ -86,7 +99,7 @@ export const Banner = ({
         <div className="lg:w-2/3 w-full flex flex-col gap-4 items-start">
           <div className="lg:hidden relative w-full aspect-w-16 aspect-h-9 ">
             <img
-              src={course.image_url}
+              src={course.url}
               alt="Logo"
               className="w-full h-full object-cover rounded-lg"
             />
@@ -114,7 +127,7 @@ export const Banner = ({
           <div className="flex flex-col lg:flex-row gap-4 w-full">
             <div
               className="bg-orange-500 text-white text-xl font-semibold px-6 py-3 rounded cursor-pointer text-center"
-              onClick={() => handleLearn(course)}
+              onClick={() => handleLearn()}
             >
               Learn Now
             </div>
@@ -186,17 +199,11 @@ export const Banner = ({
         <div className="hidden lg:w-1/3 lg:block relative">
           <div className="absolute inset-0" onClick={() => handlePreview()}>
             <img
-              src={course.image_url}
+              src={course.url}
               alt={course.title}
               className="rounded-lg w-full h-full object-cover"
             />
 
-            <div className="absolute top-1/2 left-1/2 z-10 transform -translate-x-1/2 -translate-y-1/2 p-5 rounded-full bg-white">
-              <FaPlay className="h-6 w-6" />
-            </div>
-            <div className="absolute z-10 bottom-2 left-1/2 transform -translate-x-1/2 text-white font-bold px-4 py-2 rounded-lg">
-              Preview this course
-            </div>
             <div className="custom-bottom-gradient z-0 absolute bottom-0 inset-0"></div>
           </div>
           {isModalOpen && (

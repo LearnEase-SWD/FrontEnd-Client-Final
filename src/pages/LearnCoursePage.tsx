@@ -8,24 +8,25 @@ import Sidebar from "../components/LearningPage/Sidebar";
 import MainComponent from "../components/LearningPage/MainComponent";
 import ClientService from "../services/client.service";
 import { completeLesson } from "../services/user.service";
+import LessonService from "../services/lesson.service";
 
 const LearnCoursePage = () => {
   const { id } = useParams<{ id: string }>();
   const courseId = id ? id.toString() : "";
 
-  const [course, setCourse] = useState<Course | null>(null);
+
   const [buttonText, setButtonText] = useState("Mark as Completed");
   const [loading, setLoading] = useState(false);
   const [sidebarWidth, setSidebarWidth] = useState("33%");
-
+  const [lessions, setLessions] = useState<Lesson[]>([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const response = await ClientService.getCourseDetails(courseId);
-        setCourse(response.data as Course);
+        const response = await LessonService.getLessonByCourseId(courseId);
+        setLessions(response?.data ?? []);
       } catch (error) {
         console.error("Error fetching course details:", error);
       } finally {
@@ -39,10 +40,10 @@ const LearnCoursePage = () => {
   const [selectedLesson, setSelectedLesson] = useState<Lesson | null>(null);
 
   useEffect(() => {
-    if (course?.lessons?.length) {
-      setSelectedLesson(course.lessons[0]);
+    if (lessions.length) {
+      setSelectedLesson(lessions[0]);
     }
-  }, [course]);
+  }, [lessions]);
 
   const selectLesson = (lesson: Lesson) => {
     setSelectedLesson(lesson);
@@ -50,13 +51,13 @@ const LearnCoursePage = () => {
   };
 
   const handleClick = async () => {
-    if (!selectedLesson || !course) return;
+    if (!selectedLesson || !lessions) return;
 
     if (buttonText === "Go To Next Item") {
-      const currentLessonIndex = course.lessons.findIndex((l) => l.lessonID === selectedLesson.lessonID);
+      const currentLessonIndex = lessions.findIndex((l) => l.lessonID === selectedLesson.lessonID);
 
-      if (currentLessonIndex !== -1 && currentLessonIndex < course.lessons.length - 1) {
-        selectLesson(course.lessons[currentLessonIndex + 1]);
+      if (currentLessonIndex !== -1 && currentLessonIndex < lessions.length - 1) {
+        selectLesson(lessions[currentLessonIndex + 1]);
       } else {
         setButtonText("Completed");
       }
@@ -96,7 +97,7 @@ const LearnCoursePage = () => {
     document.removeEventListener("mouseup", handleMouseUp);
   };
 
-  if (!course) {
+  if (!lessions) {
     return <Skeleton />;
   }
 
@@ -109,7 +110,7 @@ const LearnCoursePage = () => {
         <div className="lg:block hidden" style={{ width: sidebarWidth }}>
           <Sidebar
             sidebarWidth="100%"
-            lessons={course.lessons ?? []}
+            lessons={lessions}
             selectedLesson={selectedLesson}
             selectLesson={selectLesson}
           />
