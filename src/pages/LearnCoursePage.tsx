@@ -47,6 +47,7 @@ const LearnCoursePage = () => {
 
   const selectLesson = (lesson: Lesson) => {
     setSelectedLesson(lesson);
+    console.log("Lesson:", lesson)
     setButtonText(lesson.is_completed ? "Go To Next Item" : "Mark as Completed");
   };
 
@@ -127,7 +128,6 @@ const LearnCoursePage = () => {
           handleClick={handleClick}
           loading={loading}
           buttonText={buttonText}
-          lessons={lessons}
         />
       </div>
     </div>
