@@ -46,7 +46,7 @@ const items: MenuItem[] = [
     key: "3",
     path: "/error",
   },
-];
+];  
 
 const Navbar = () => {
   const { currentUser, token } = useSelector((state: RootState) => state.auth.login);
@@ -61,20 +61,20 @@ const Navbar = () => {
   const { cartCount } = useSelector((state: RootState) => state.cart);
   const dispatch = useDispatch<AppDispatch>();
 
-  useEffect(() => {
-    if (userLoggedIn) {
+   useEffect(() => {
+    if (currentUser && token) {
       dispatch(fetchCartCount());
     }
-  }, [dispatch, userLoggedIn]);
-
+  }, [dispatch, currentUser, token]);
 
   useEffect(() => {
-    if (localStorage.getItem("user") != null) {
+    if (localStorage.getItem("userEmail") != null) {
       setUserLoggedIn(true);
     } else {
       setUserLoggedIn(false);
     }
   }, [currentUser, token]);
+ 
 
 
   useEffect(() => {
@@ -102,10 +102,7 @@ const Navbar = () => {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        searchInputRef.current &&
-        !searchInputRef.current.input?.contains(event.target as Node)
-      ) {
+      if (searchInputRef.current && !searchInputRef.current.input?.contains(event.target as Node)) {
         setIsSearchActive(false);
       }
     };

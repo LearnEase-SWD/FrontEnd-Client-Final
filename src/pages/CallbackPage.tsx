@@ -14,6 +14,10 @@ const CallbackPage = () => {
       
       console.log(window.location.search); 
       if (accessToken && userEmail ) {
+        localStorage.setItem("token", accessToken);
+
+        localStorage.setItem("userEmail", userEmail);
+
         dispatch<any>(loginWithGoogle({ accessToken, userEmail }))
           .unwrap()
           .then(() => {
