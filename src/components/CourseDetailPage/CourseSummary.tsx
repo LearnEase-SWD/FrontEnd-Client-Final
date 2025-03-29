@@ -8,14 +8,11 @@ import { capitalizeFirstLetter } from "../../utils/capitalize";
 
 type Props = {
   time: number;
-  student: number;
   level: string;
   lessons: number;
-  quizzes: number;
 };
 export const CourseSummary = ({
   time,
-  student,
   level,
   lessons
 }: Props) => {
@@ -26,10 +23,7 @@ export const CourseSummary = ({
         {Math.ceil(time / 60)} Hours
       </div>
       <div className="w-[1px] h-full bg-slate-200 min-h-[45px] min-w-[1px]"></div>
-      <div className="w-1/4 flex lg:flex-row flex-col items-center justify-center font-jost font-light gap-2 lg:px-4">
-        <MdAccountCircle height={16} fill="#FF782D" />
-        {student} Students
-      </div>
+      
       <div className="w-[1px] h-full bg-slate-200 min-h-[45px] min-w-[1px]"></div>
       <div className="w-1/4 flex lg:flex-row flex-col items-center justify-center font-jost font-light gap-2 lg:px-4">
         <MdInsertChart height={16} fill="#FF782D" />
