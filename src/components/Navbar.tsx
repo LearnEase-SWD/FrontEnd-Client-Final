@@ -46,7 +46,7 @@ const items: MenuItem[] = [
     key: "3",
     path: "/error",
   },
-];  
+];
 
 const Navbar = () => {
   const { currentUser, token } = useSelector((state: RootState) => state.auth.login);
@@ -61,7 +61,7 @@ const Navbar = () => {
   const { cartCount } = useSelector((state: RootState) => state.cart);
   const dispatch = useDispatch<AppDispatch>();
 
-   useEffect(() => {
+  useEffect(() => {
     if (currentUser && token) {
       dispatch(fetchCartCount());
     }
@@ -74,7 +74,7 @@ const Navbar = () => {
       setUserLoggedIn(false);
     }
   }, [currentUser, token]);
- 
+
 
 
   useEffect(() => {
@@ -94,6 +94,7 @@ const Navbar = () => {
   }, [location.pathname]);
 
   const handleLogout = () => {
+    localStorage.removeItem("userEmail");
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     window.location.reload();
@@ -176,6 +177,7 @@ const Navbar = () => {
         label: <span className="text-red-500">Logout</span>,
         key: "logout",
         onClick: () => {
+          localStorage.removeItem("userEmail");
           localStorage.removeItem("token");
           localStorage.removeItem("user");
           window.location.reload();
@@ -272,7 +274,7 @@ const Navbar = () => {
                     </a>
                   </div>
                 </div>
-               
+
               </>
             )}
             {/* <div
