@@ -178,7 +178,7 @@ const CourseCard: React.FC<{
                 {course.lesson_count}
               </li>
             </ul> */}
-            {!isInCart &&
+            {/* {!isInCart &&
               <Button
                 loading={loading}
                 className="font-jost cursor-pointer w-full bg-primary text-primary-foreground hover:bg-primary/90 flex view-button ant-btn-variant-solid"
@@ -190,8 +190,8 @@ const CourseCard: React.FC<{
               >
                 <FaShoppingCart className="text-white" size={18} /> Add to cart
               </Button>
-            }
-            {(isInCart && !course.is_purchased) &&
+            } */}
+            {/* {(isInCart && !course.is_purchased) &&
               <Button
                 className="font-jost cursor-pointer w-full bg-primary text-primary-foreground hover:bg-primary/90 flex view-button ant-btn-variant-solid"
                 onClick={(e) => {
@@ -202,9 +202,9 @@ const CourseCard: React.FC<{
               >
                 <FaShoppingCart className="text-white" size={18} /> View In Your Cart
               </Button>
-            }
+            } */}
 
-            {course.is_purchased &&
+            {/* {course.is_purchased &&
               <Button
                 className="font-jost cursor-pointer w-full bg-primary text-primary-foreground hover:bg-primary/90 flex view-button ant-btn-variant-solid"
                 onClick={(e) => {
@@ -215,7 +215,7 @@ const CourseCard: React.FC<{
               >
                 <FaBook className="text-white" size={18} /> Learn Now
               </Button>
-            }
+            } */}
 
           </div>
         </div>
