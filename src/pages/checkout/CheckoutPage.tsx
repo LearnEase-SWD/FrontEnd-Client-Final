@@ -56,7 +56,7 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({
 
     try {
       const response = await axios.post(
-        "http://localhost:5121/api/pay/Checkout",
+        "/api/pay/Checkout",
         paymentData
       );
       const paymentUrl = response.data;
