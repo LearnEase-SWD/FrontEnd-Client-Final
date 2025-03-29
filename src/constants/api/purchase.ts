@@ -5,4 +5,5 @@ export const PURCHASE_API = {
   GET_PURCHASES: `${API_BASE_URL}/search`,
   GET_PURCHASES_INSTRUCTOR: `${API_BASE_URL}/search-for-instructor`,
   GET_PURCHASES_STUDENT: `${API_BASE_URL}/search-for-student`,
+  GET_PURCHASES_BY_ID: `${API_BASE_URL}/`,
 };

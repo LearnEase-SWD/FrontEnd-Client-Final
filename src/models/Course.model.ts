@@ -7,6 +7,7 @@ import {
 import { Session } from "./Session.model";
 
 export interface Course {
+  isPurchased: boolean;
   courseID: string;
   topicId: string;
   topicName: string;
@@ -27,7 +28,7 @@ export interface Course {
   user_name: string;
   name: string;
   totalLessons: number;
-  lessons: Lesson[];
+  Lesson: Lesson[];
   is_in_cart: boolean;
   is_purchased: boolean;
   average_rating: number;
