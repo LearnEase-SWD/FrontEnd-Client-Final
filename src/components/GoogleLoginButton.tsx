@@ -18,7 +18,7 @@ const GoogleLoginButton: React.FC = () => {
 
     const handleGoogleLogin = async () => {
         try {
-            const authWindow = window.open("http://localhost:5121/api/auth/login", "_blank");
+            const authWindow = window.open("https://localhost:7002/api/auth/login", "_blank");
 
             if (authWindow) {
                 const handleMessage = async (event: MessageEvent) => {
@@ -39,7 +39,7 @@ const GoogleLoginButton: React.FC = () => {
 
                         try {
                             const response = await axios.get<{ accessToken: string, userEmail: string }>(
-                                `http://localhost:5121/api/auth/google-login?accessToken=${accessToken}`
+                                `https://localhost:7002/api/auth/google-login?accessToken=${accessToken}`
                             );
                             const userData = response.data;
 
