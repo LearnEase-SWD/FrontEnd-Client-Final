@@ -25,9 +25,7 @@ export const Banner = ({
   completed_lesson,
 }: Props) => {
   const dispatch = useDispatch<AppDispatch>();
-  // const totalLessons = course.session_list.reduce((sum, session) => {
-  //   return sum + session.lesson_list.length;
-  // }, 0);
+  const totalLessons = course.lessons.length || 0;
   const { currentUser } = useSelector((state: RootState) => state.auth.login);
 
   // const completedLessonCount = course.session_list.reduce((sum, session) => {
@@ -57,7 +55,7 @@ export const Banner = ({
   };
 
   const handleLearn = (course: Course) => {
-    console.log(course.lessons[0]);
+    console.log("First lesson: ", course.lessons[0]);
     sessionStorage.setItem(
       "lessonIndex",
       JSON.stringify(course.lessons[0])
@@ -112,34 +110,34 @@ export const Banner = ({
               {course.instructor_name}
             </span>
           </div> */}
-          {isPurchased ? (
-            <div className="flex flex-col lg:flex-row gap-4 w-full">
-              <div
-                className="bg-orange-500 text-white text-xl font-semibold px-6 py-3 rounded cursor-pointer text-center"
-                onClick={() => handleLearn(course)}
-              >
-                Learn Now
-              </div>
-              <div className="flex-grow">
-                <div className="font-light">Already enrolled</div>
-                <div className="flex justify-between items-baseline">
-                  <div>Your Progress </div>
-                  {/* <div className="mt-2 text-sm">
+          {/* {isPurchased ? ( */}
+          <div className="flex flex-col lg:flex-row gap-4 w-full">
+            <div
+              className="bg-orange-500 text-white text-xl font-semibold px-6 py-3 rounded cursor-pointer text-center"
+              onClick={() => handleLearn(course)}
+            >
+              Learn Now
+            </div>
+            <div className="flex-grow">
+              <div className="font-light">Already enrolled</div>
+              <div className="flex justify-between items-baseline">
+                <div>Your Progress </div>
+                {/* <div className="mt-2 text-sm">
                     {completedLessonCount} of {totalLessons} lessons completed (
                     {progressPercentage.toFixed(0)}%)
                   </div> */}
-                </div>
-                <div className="bg-gray-200 h-3 w-full rounded">
-                  {/* <div
+              </div>
+              <div className="bg-gray-200 h-3 w-full rounded">
+                {/* <div
                     className="bg-orange-400 h-3 rounded"
                     style={{ width: `${progressPercentage}%` }}
                   ></div> */}
-                </div>
               </div>
             </div>
-          ) : (
-            <div className="flex">
-              {/* {currentUser._id === course.instructor_id ? (
+          </div>
+          {/* ) : ( */}
+          <div className="flex">
+            {/* {currentUser._id === course.instructor_id ? (
                 <div
                   className="bg-orange-500 text-white text-2xl font-semibold px-8 py-4 rounded cursor-pointer"
                   onClick={() => navigate("/dashboard/instructor/my-courses")}
@@ -147,7 +145,7 @@ export const Banner = ({
                   Edit This Course
                 </div>
               ) : ( */}
-              <div
+            {/* <div
                 className="bg-orange-500 text-white text-xl font-semibold px-6 py-3 rounded cursor-pointer"
                 onClick={() => {
                   if (currentUser?.role) {
@@ -163,27 +161,27 @@ export const Banner = ({
                 }
               >
                 {course.is_in_cart ? "View in Cart" : "Buy Now"}
-              </div>
-              {/* )} */}
-              <div className="flex flex-col items-start justify-center ml-4">
-                {course.discount && course.discount > 0 ? (
-                  <>
-                    <div className="text-xl line-through text-gray-500">
-                      {course.price.toLocaleString("vi-VN")}đ
-                    </div>
-                    <div className="text-2xl font-bold text-orange-500">
-                      {course.price_paid.toLocaleString("vi-VN")}đ
-                    </div>
-                  </>
-                ) : (
-                  <div className="text-2xl font-bold text-orange-500">
+              </div> */}
+            {/* )} */}
+            <div className="flex flex-col items-start justify-center ml-4">
+              {course.discount && course.discount > 0 ? (
+                <>
+                  <div className="text-xl line-through text-gray-500">
                     {course.price.toLocaleString("vi-VN")}đ
                   </div>
-                )}
-              </div>
-
+                  <div className="text-2xl font-bold text-orange-500">
+                    {course.price_paid.toLocaleString("vi-VN")}đ
+                  </div>
+                </>
+              ) : (
+                <div className="text-2xl font-bold text-orange-500">
+                  {course.price.toLocaleString("vi-VN")}đ
+                </div>
+              )}
             </div>
-          )}
+
+          </div>
+          {/* )} */}
         </div>
         <div className="hidden lg:w-1/3 lg:block relative">
           <div className="absolute inset-0" onClick={() => handlePreview()}>
@@ -219,15 +217,14 @@ export const Banner = ({
           )}
         </div>
       </div>
-      {/* <div className="relative flex justify-center">
+      <div className="relative flex justify-center">
         <CourseSummary
           time={course.full_time}
-          student={course.enrolled}
-          level={course.level}
+          level={course.difficultyLevel}
           lessons={totalLessons}
-          quizzes={0}
+        // quizzes={0}
         />
-      </div> */}
+      </div>
     </div>
   );
 };

@@ -27,23 +27,23 @@ const MainContent: React.FC<MainContentProps> = ({
   return (
     <div
       ref={scrollRef}
-      className="flex-grow lg:h-[92vh] h-[86vh] overflow-y-scroll" 
+      className="flex-grow lg:h-[92vh] h-[86vh] overflow-y-scroll"
       style={{ width: remainingWidth }}
     >
       {selectedLesson && (
         <div className="mt-4 p-4 rounded">
-          <h2 className="text-xl font-bold">{selectedLesson.name}</h2>
+          <h2 className="text-xl font-bold">{selectedLesson.title}</h2>
           <div className="pt-2 rounded">
-            {selectedLesson.lesson_type === "video" ? (
+            {selectedLesson.lessonType === 0 ? (
               <div className="w-full max-h-[70vh]">
                 <ReactPlayer
                   url={selectedLesson.video_url}
                   controls
                 />
               </div>
-            ) : selectedLesson.lesson_type === "image" ? (
+            ) : selectedLesson.lessonType === 1 ? (
               <div className="w-full">
-                <div><img src={selectedLesson.image_url} alt="Image"/></div>
+                <div><img src={selectedLesson.image_url} alt="Image" /></div>
               </div>
             ) : (
               <div
